@@ -1,4 +1,5 @@
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/StringValue.class
+io/github/danielalmeida19/orchestranode/annotations/Collection.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/BooleanValue.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/ObjectValue.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/ArrayValue.class

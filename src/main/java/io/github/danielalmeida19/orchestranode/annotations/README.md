@@ -6,8 +6,6 @@ This module serves as an annotation declarer to enable the creation of modificat
 
 ## Class Level
 
-***
-
 # `@Collection`
 
 Defines a class as a collection of data, where the structural metamodel will store the schema of an instance.
