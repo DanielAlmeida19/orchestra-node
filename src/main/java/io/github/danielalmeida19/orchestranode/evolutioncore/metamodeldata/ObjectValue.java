@@ -6,8 +6,8 @@ import java.util.Map;
 
 /**
  * Class that represents an entity, which by itself, represents a data instance.
- * ({@link io.github.danielalmeida19.orchestranode.evolutioncore.metamodeldata.FieldEntity})
  *
+ * @author Daniel
  */
 public final class ObjectValue implements Value {
 

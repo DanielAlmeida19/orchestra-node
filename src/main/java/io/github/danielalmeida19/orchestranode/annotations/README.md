@@ -2,8 +2,6 @@
 
 This module serves as an annotation declarer to enable the creation of modifications that the _OrchestraNode_ accepts in its class composition. In this way, it is possible to define which mapped attributes and have the _OrchestraNode_ recognize the difference between the mapped schemas when there are changes.
 
-***
-
 ## Class Level
 
 # `@Collection`
