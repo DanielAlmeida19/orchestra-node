@@ -9,6 +9,7 @@
 /home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/src/main/java/io/github/danielalmeida19/orchestranode/annotations/PriorityLevel.java
 /home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/src/main/java/io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/StringField.java
 /home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/src/main/java/io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/BooleanField.java
+/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/src/main/java/io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/ListField.java
 /home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/src/main/java/io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/ArrayValue.java
 /home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/src/main/java/io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/NumberValue.java
 /home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/src/main/java/io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/StringValue.java

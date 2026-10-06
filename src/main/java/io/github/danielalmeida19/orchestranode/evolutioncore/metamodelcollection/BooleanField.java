@@ -2,4 +2,7 @@ package io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollectio
 
 public class BooleanField extends Field<Boolean> {
 
+    public BooleanField(String name, Boolean value) {
+        super(name, value);
+    }
 }

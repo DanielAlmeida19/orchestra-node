@@ -2,6 +2,7 @@ io/github/danielalmeida19/orchestranode/annotations/Field.class
 io/github/danielalmeida19/orchestranode/annotations/PriorityLevel.class
 io/github/danielalmeida19/orchestranode/annotations/Collection.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/BooleanValue.class
+io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/ListField.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/ObjectValue.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/StringField.class
 io/github/danielalmeida19/orchestranode/App.class

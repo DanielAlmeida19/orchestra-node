@@ -2,24 +2,13 @@ package io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollectio
 
 import java.util.List;
 
-/**
- * @author Daniel
- */
-public class ObjectField extends Field<List<Field<?>>> {
+public class ListField<T> extends Field<List<T>> {
 
     @Override
     public String toString() {
-        String objectFinal = new String();
-
-        for (Field field : this.getValue()) {
-            objectFinal += field.toString();
-            objectFinal += "\n";
-        }
-
         return "{\n" +
                 "\t" + "\"name\": " + "\"" + getName() + "\",\n" +
                 "\t" + "\"value\": " + "\"" + getValue() + "\",\n" +
                 "}\n";
     }
-
 }
