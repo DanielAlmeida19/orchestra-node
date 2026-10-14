@@ -7,19 +7,27 @@ import java.util.List;
  */
 public class ObjectField extends Field<List<Field<?>>> {
 
-    @Override
-    public String toString() {
-        String objectFinal = new String();
-
-        for (Field field : this.getValue()) {
-            objectFinal += field.toString();
-            objectFinal += "\n";
-        }
-
-        return "{\n" +
-                "\t" + "\"name\": " + "\"" + getName() + "\",\n" +
-                "\t" + "\"value\": " + "\"" + getValue() + "\",\n" +
-                "}\n";
+    public ObjectField() {
+        super();
     }
 
+    public ObjectField(String name) {
+        super(name);
+    }
+
+    public ObjectField(String name, List<Field<?>> value) {
+        super(name, value);
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+
+        sb.append("> Fields: \n");
+        this.getValue().forEach(f -> sb.append("\t").append(f.toString().replace("\n", "\n\t")).append("\n"));
+
+        return sb.toString();
+    }
 }

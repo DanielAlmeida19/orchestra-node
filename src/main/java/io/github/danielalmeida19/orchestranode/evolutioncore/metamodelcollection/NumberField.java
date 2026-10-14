@@ -5,4 +5,8 @@ public class NumberField extends Field<Number> {
     public NumberField(String name, Number value) {
         super(name, value);
     }
+
+    public NumberField(String name) {
+        super(name);
+    }
 }

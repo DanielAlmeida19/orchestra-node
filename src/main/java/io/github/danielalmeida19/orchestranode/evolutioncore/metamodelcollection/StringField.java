@@ -5,4 +5,8 @@ public class StringField extends Field<String> {
     public StringField(String name, String value) {
         super(name, value);
     }
+
+    public StringField(String name) {
+        super(name);
+    }
 }

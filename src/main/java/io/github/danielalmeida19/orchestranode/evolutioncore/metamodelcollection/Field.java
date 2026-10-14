@@ -4,6 +4,9 @@ public abstract class Field<T> {
 
     private String name;
     private T value;
+    private String external;
+    private boolean nullable;
+    private boolean ignorable;
 
     public Field() {
 
@@ -12,6 +15,10 @@ public abstract class Field<T> {
     public Field(String name, T value) {
         this.name = name;
         this.value = value;
+    }
+
+    public Field(String name) {
+        this.name = name;
     }
 
     public String getName() {
@@ -30,11 +37,38 @@ public abstract class Field<T> {
         this.value = value;
     }
 
+    public String getExternal() {
+        return external;
+    }
+
+    public void setExternal(String external) {
+        this.external = external;
+    }
+
+    public boolean isNullable() {
+        return nullable;
+    }
+
+    public void setNullable(boolean nullable) {
+        this.nullable = nullable;
+    }
+
+    public boolean isIgnorable() {
+        return ignorable;
+    }
+
+    public void setIgnorable(boolean ignorable) {
+        this.ignorable = ignorable;
+    }
+
     @Override
     public String toString() {
-        return "{\n" +
-                "\t" + "\"name\": " + "\"" + getName() + "\",\n" +
-                "\t" + "\"value\": " + "\"" + getValue() + "\",\n" +
-                "}\n";
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("> Field: ").append(this.name).append("\n");
+        sb.append("> Type: ").append(this.getClass().getName()).append("\n");
+        return sb.toString();
     }
+
 }
