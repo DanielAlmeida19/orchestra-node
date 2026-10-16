@@ -1,6 +1,6 @@
 package io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection;
 
-public class StringField extends Field<String> {
+public class StringField extends CollectionField<String> {
 
     public StringField(String name, String value) {
         super(name, value);
@@ -8,5 +8,8 @@ public class StringField extends Field<String> {
 
     public StringField(String name) {
         super(name);
+    }
+
+    public StringField() {
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author Daniel
  */
-public class ObjectField extends Field<List<Field<?>>> {
+public class ObjectField extends CollectionField<List<CollectionField<?>>> {
 
     public ObjectField() {
         super();
@@ -15,7 +15,7 @@ public class ObjectField extends Field<List<Field<?>>> {
         super(name);
     }
 
-    public ObjectField(String name, List<Field<?>> value) {
+    public ObjectField(String name, List<CollectionField<?>> value) {
         super(name, value);
     }
 

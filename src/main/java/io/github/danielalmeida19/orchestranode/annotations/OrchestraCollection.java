@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Collection {
+public @interface OrchestraCollection {
 
     /**
      * The name that will be mapped from the class to the data collection

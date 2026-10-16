@@ -1,9 +1,23 @@
 package io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public class ListField<T> extends Field<List<T>> {
+public class ListField<T> extends CollectionField<List<T>> {
+
+    private Class<?> elementType;
+
+    public ListField() {
+    }
+
+    public ListField(String name, Class<T> elementType) {
+        super(name);
+        this.elementType = elementType;
+    }
+
+    public ListField(String name, List<T> values, Class<T> elementType) {
+        super(name, values);
+        this.elementType = elementType;
+    }
 
     @Override
     public String toString() {
@@ -11,12 +25,7 @@ public class ListField<T> extends Field<List<T>> {
 
         sb.append("> Field: ").append(this.getName()).append("\n");
         sb.append("> Type: ").append(this.getClass()).append("\n");
-
-        // Determine the type of T using reflection
-        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-        Class<?> fieldType = (Class<?>) genericSuperclass.getActualTypeArguments()[0];
-
-        sb.append("> Generic Type: ").append(fieldType.getName()).append("\n");
+        sb.append("> Generic Type: ").append(this.elementType).append("\n");
 
         return sb.toString();
 

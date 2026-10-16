@@ -1,10 +1,12 @@
 package io.github.danielalmeida19.orchestranode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.danielalmeida19.orchestranode.annotations.PriorityLevel;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.BooleanField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
+import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ListField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.NumberField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ObjectField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.StringField;
@@ -43,8 +45,10 @@ public class App {
                 new ObjectField("endereco", List.of(
                         new StringField("rua"),
                         new NumberField("numero"))),
-                new BooleanField("ativo")));
+                new BooleanField("ativo"),
+                new ListField<String>("habilidades", List.of("java", "python"), String.class)));
 
         System.out.println(collection);
+
     }
 }

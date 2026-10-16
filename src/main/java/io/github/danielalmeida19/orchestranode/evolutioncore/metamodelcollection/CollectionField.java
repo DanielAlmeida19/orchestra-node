@@ -1,6 +1,6 @@
 package io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection;
 
-public abstract class Field<T> {
+public abstract class CollectionField<T> {
 
     private String name;
     private T value;
@@ -8,16 +8,16 @@ public abstract class Field<T> {
     private boolean nullable;
     private boolean ignorable;
 
-    public Field() {
+    public CollectionField() {
 
     }
 
-    public Field(String name, T value) {
+    public CollectionField(String name, T value) {
         this.name = name;
         this.value = value;
     }
 
-    public Field(String name) {
+    public CollectionField(String name) {
         this.name = name;
     }
 

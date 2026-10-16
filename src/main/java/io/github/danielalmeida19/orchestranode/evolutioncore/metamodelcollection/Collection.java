@@ -8,7 +8,7 @@ public class Collection {
 
     private String name;
     // private ObjectField body;
-    private List<Field<?>> fields;
+    private List<CollectionField<?>> fields;
     private PriorityLevel priorityLevel;
 
     public PriorityLevel getPriorityLevel() {
@@ -27,11 +27,11 @@ public class Collection {
         this.name = name;
     }
 
-    public List<Field<?>> getFields() {
+    public List<CollectionField<?>> getFields() {
         return fields;
     }
 
-    public void setFields(List<Field<?>> fields) {
+    public void setFields(List<CollectionField<?>> fields) {
         this.fields = fields;
     }
 
