@@ -12,9 +12,10 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.CollectionField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ListField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.NumberField;
+import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ObjectField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.StringField;
 
-public class ChangeProcessor {
+public class SchemaProcessor {
 
     public Collection processClass(Class<?> clazz) {
 
@@ -80,9 +81,32 @@ public class ChangeProcessor {
             if (actualTypeArguments.length > 0) {
 
                 Type itemType = actualTypeArguments[0];
+                if (isPrimitiveType(itemType.getClass())) {
+                    switch (itemType.getTypeName()) {
+                        case "java.lang.String":
+                            return new ListField<String>(fieldName, String.class);
 
+                        case "int":
+                        case "float":
+                        case "double":
+                            return new ListField<Number>(fieldName, Number.class);
+
+                        default:
+                            return new ListField<>(fieldName, (Class<?>) itemType);
+                    }
+                }
             }
         }
+
+        // If isn't any previous option, is an object field
+        Collection internalCollection = processClass(field.getClass());
+
+        if (!fieldAnnotation.external().isEmpty()) {
+            System.out.println("Sorry, this treatment doesn't exists yet");
+            return null;
+        }
+
+        return new ObjectField(fieldName, internalCollection.getFields());
 
     }
 

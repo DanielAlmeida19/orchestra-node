@@ -2,6 +2,17 @@
 
 This module serves as an annotation declarer to enable the creation of modifications that the _OrchestraNode_ accepts in its class composition. In this way, it is possible to define which mapped attributes and have the _OrchestraNode_ recognize the difference between the mapped schemas when there are changes.
 
+## Application Level
+
+# `@OrchestraNodeManagedPackage`
+
+Defines the package of the application on main class to pick the classes to be managed by OrchestraNode
+
+| Field | Meaning | Default Value |
+| --- | --- | --- |
+| `package` | The package that will be used to search the collections managed by OrchestraNode | `""` |
+
+
 ## Class Level
 
 # `@Collection`
