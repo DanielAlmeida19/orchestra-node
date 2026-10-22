@@ -12,4 +12,8 @@ public class NumberField extends CollectionField<Number> {
 
     public NumberField() {
     }
+
+    public NumberField(String name, String external, boolean nullable, boolean ignorable) {
+        super(name, external, nullable, ignorable);
+    }
 }

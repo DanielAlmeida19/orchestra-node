@@ -12,4 +12,8 @@ public class StringField extends CollectionField<String> {
 
     public StringField() {
     }
+
+    public StringField(String name, String external, boolean nullable, boolean ignorable) {
+        super(name, external, nullable, ignorable);
+    }
 }

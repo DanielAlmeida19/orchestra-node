@@ -12,4 +12,8 @@ public class BooleanField extends CollectionField<Boolean> {
 
     public BooleanField() {
     }
+
+    public BooleanField(String name, String external, boolean nullable, boolean ignorable) {
+        super(name, external, nullable, ignorable);
+    }
 }

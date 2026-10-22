@@ -17,7 +17,7 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection
 
 public class SchemaProcessor {
 
-    public Collection processClass(Class<?> clazz) {
+    public static Collection processClass(Class<?> clazz) {
 
         // If the class doesn't have the annotation Collection, ignore
         if (!clazz.isAnnotationPresent(OrchestraCollection.class)) {
@@ -42,7 +42,7 @@ public class SchemaProcessor {
         return collection;
     }
 
-    public CollectionField<?> processField(Field field) {
+    public static CollectionField<?> processField(Field field) {
 
         // Verify if the attribute have the annotation @OrchestraField
         if (!field.isAnnotationPresent(OrchestraField.class)) {
@@ -58,15 +58,18 @@ public class SchemaProcessor {
         if (isPrimitiveType(field.getType())) {
             switch (field.getType().getName()) {
                 case "java.lang.String":
-                    return new StringField(fieldName);
+                    return new StringField(fieldName, fieldAnnotation.external(), fieldAnnotation.nullable(),
+                            fieldAnnotation.ignorable());
 
                 case "int":
                 case "double":
                 case "float":
-                    return new NumberField(fieldName);
+                    return new NumberField(fieldName, fieldAnnotation.external(), fieldAnnotation.nullable(),
+                            fieldAnnotation.ignorable());
 
                 case "boolean":
-                    return new BooleanField(fieldName);
+                    return new BooleanField(fieldName, fieldAnnotation.external(), fieldAnnotation.nullable(),
+                            fieldAnnotation.ignorable());
                 default:
                     break;
             }
@@ -110,7 +113,7 @@ public class SchemaProcessor {
 
     }
 
-    public boolean isListOfObjects(Field field) {
+    public static boolean isListOfObjects(Field field) {
 
         // 1. Verify the type of the field is assinable for List
         if (!List.class.isAssignableFrom(field.getType())) {
@@ -131,7 +134,7 @@ public class SchemaProcessor {
         return false;
     }
 
-    public boolean isPrimitiveType(Class<?> type) {
+    public static boolean isPrimitiveType(Class<?> type) {
         return type.isPrimitive() || type.equals(String.class);
 
     }
