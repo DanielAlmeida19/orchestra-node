@@ -15,4 +15,6 @@ public class Person {
 
     @OrchestraField
     private boolean active;
+
+    private boolean test;
 }

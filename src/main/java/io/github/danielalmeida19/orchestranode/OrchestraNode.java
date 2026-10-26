@@ -63,7 +63,14 @@ public class OrchestraNode {
 
         // Process the classes from the managed package
         for (Class<?> clazz : classes) {
-            extractedCollections.add(SchemaProcessor.processClass(clazz));
+            Collection newCollection = SchemaProcessor.processClass(clazz);
+
+            if (newCollection == null) {
+                continue;
+            }
+
+            log.info("Adding collection " + newCollection.getName());
+            extractedCollections.add(newCollection);
         }
 
         return extractedCollections;

@@ -10,7 +10,6 @@ import io.github.danielalmeida19.orchestranode.annotations.PriorityLevel;
 public class Collection {
 
     private String name;
-    // private ObjectField body;
     private List<CollectionField<?>> fields;
     private PriorityLevel priorityLevel;
 
@@ -26,9 +25,7 @@ public class Collection {
             return false;
         Collection that = (Collection) obj;
 
-        boolean equalsStructure = new HashSet<>(this.fields).equals(new HashSet<>(that.getFields()));
-
-        return name.equals(that.name) && equalsStructure && priorityLevel == that.priorityLevel;
+        return name.equals(that.name) && isListOfFieldsEquals(that) && priorityLevel == that.priorityLevel;
     }
 
     @Override
@@ -78,6 +75,37 @@ public class Collection {
         sb.append("> Fields: \n");
         this.fields.forEach(f -> sb.append("\t").append(f.toString().replace("\n", "\n\t")).append("\n"));
         return sb.toString();
+    }
+
+    private boolean isListOfFieldsEquals(Collection comparedCollection) {
+        List<CollectionField<?>> comparedCollectionFields = comparedCollection.getFields();
+
+        if (fields.size() != comparedCollectionFields.size()) {
+            return false;
+        }
+
+        for (CollectionField<?> collectionField : fields) {
+            CollectionField<?> comparedField = getFieldByName(collectionField.getName());
+
+            if (comparedField == null) {
+                return false;
+            }
+
+            if (comparedField != collectionField) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public CollectionField<?> getFieldByName(String fieldName) {
+        for (CollectionField<?> field : fields) {
+            if (field.getName().equals(fieldName)) {
+                return field;
+            }
+        }
+        return null; // or throw an exception if you prefer
     }
 
 }

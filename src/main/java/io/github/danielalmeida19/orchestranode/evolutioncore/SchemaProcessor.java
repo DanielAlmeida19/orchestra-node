@@ -36,7 +36,13 @@ public class SchemaProcessor {
 
         // Iterates through the attributes declared in the class
         for (Field field : clazz.getDeclaredFields()) {
-            collection.getFields().add(processField(field));
+            CollectionField<?> newField = processField(field);
+
+            if (newField == null) {
+                continue;
+            }
+
+            collection.getFields().add(newField);
         }
 
         return collection;
@@ -51,6 +57,9 @@ public class SchemaProcessor {
 
         // Obtain the annotation of the attribute
         var fieldAnnotation = field.getAnnotation(OrchestraField.class);
+
+        // String external = fieldAnnotation.external().isEmpty() ? null :
+        // fieldAnnotation.external();
 
         // Define the name of the field if filled, else the name of the java field
         String fieldName = fieldAnnotation.name().isEmpty() ? field.getName() : fieldAnnotation.name();

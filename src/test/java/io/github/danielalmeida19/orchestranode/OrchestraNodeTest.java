@@ -28,11 +28,10 @@ public class OrchestraNodeTest {
         expectedPerson.setName("Persons");
         expectedPerson.setPriorityLevel(PriorityLevel.NORMAL);
         expectedPerson.setFields(List.of(
-                new StringField("name"),
-                new NumberField("age"),
-                new BooleanField("active")));
+                new StringField("name", "", false, true),
+                new NumberField("age", "", true, true),
+                new BooleanField("active", "", true, true)));
 
         assertEquals(expectedPerson, collections.getFirst());
-
     }
 }
