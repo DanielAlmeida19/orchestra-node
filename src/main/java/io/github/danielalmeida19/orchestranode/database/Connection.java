@@ -1,4 +1,4 @@
-package io.github.danielalmeida19.orchestranode.connectors;
+package io.github.danielalmeida19.orchestranode.database;
 
 /**
  * This class represents a Connection of a DB to the middleware
@@ -31,6 +31,15 @@ public class Connection {
      * The state of the connection, if is i
      */
     private ConnectionState connectionState;
+
+    public Connection(OrchestraNodeDriver driver, String host, String port, String databaseName,
+            ConnectionState connectionState) {
+        this.driver = driver;
+        this.host = host;
+        this.port = port;
+        this.databaseName = databaseName;
+        this.connectionState = connectionState;
+    }
 
     public OrchestraNodeDriver getDriver() {
         return driver;
@@ -84,6 +93,11 @@ public class Connection {
         }
 
         sb.append("://");
+        sb.append(host).append(":");
+        sb.append(port);
+
+        return sb.toString();
+
     }
 
 }

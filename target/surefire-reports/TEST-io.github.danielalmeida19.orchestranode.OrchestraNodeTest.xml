@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="io.github.danielalmeida19.orchestranode.OrchestraNodeTest" time="0.068" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="io.github.danielalmeida19.orchestranode.OrchestraNodeTest" time="0" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/test-classes:/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/classes:/home/dani/.m2/repository/junit/junit/4.11/junit-4.11.jar:/home/dani/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/dani/.m2/repository/org/slf4j/slf4j-api/2.0.20/slf4j-api-2.0.20.jar:/home/dani/.m2/repository/ch/qos/logback/logback-classic/1.6.5/logback-classic-1.6.5.jar:/home/dani/.m2/repository/ch/qos/logback/logback-core/1.6.5/logback-core-1.6.5.jar:"/>
+    <property name="java.class.path" value="/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/test-classes:/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/classes:/home/dani/.m2/repository/junit/junit/4.11/junit-4.11.jar:/home/dani/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/dani/.m2/repository/org/slf4j/slf4j-api/2.0.20/slf4j-api-2.0.20.jar:/home/dani/.m2/repository/ch/qos/logback/logback-classic/1.6.5/logback-classic-1.6.5.jar:/home/dani/.m2/repository/ch/qos/logback/logback-core/1.6.5/logback-core-1.6.5.jar:/home/dani/.m2/repository/org/mongodb/mongodb-driver-sync/5.13.0/mongodb-driver-sync-5.13.0.jar:/home/dani/.m2/repository/org/mongodb/bson/5.13.0/bson-5.13.0.jar:/home/dani/.m2/repository/org/mongodb/mongodb-driver-core/5.13.0/mongodb-driver-core-5.13.0.jar:/home/dani/.m2/repository/org/mongodb/bson-record-codec/5.13.0/bson-record-codec-5.13.0.jar:"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
@@ -12,9 +12,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="BR"/>
     <property name="sun.boot.library.path" value="/home/dani/.sdkman/candidates/java/24-open/lib"/>
-    <property name="sun.java.command" value="/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/surefire/surefirebooter12568746082538932278.jar /home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/surefire 2026-10-26T11-32-17_114-jvmRun1 surefire8586055930303679371tmp surefire_08095753467251279016tmp"/>
+    <property name="sun.java.command" value="/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/surefire/surefirebooter9383320202190496571.jar /home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/surefire 2026-10-27T10-31-43_073-jvmRun1 surefire18113740577885390149tmp surefire_03647627423388177728tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/test-classes:/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/classes:/home/dani/.m2/repository/junit/junit/4.11/junit-4.11.jar:/home/dani/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/dani/.m2/repository/org/slf4j/slf4j-api/2.0.20/slf4j-api-2.0.20.jar:/home/dani/.m2/repository/ch/qos/logback/logback-classic/1.6.5/logback-classic-1.6.5.jar:/home/dani/.m2/repository/ch/qos/logback/logback-core/1.6.5/logback-core-1.6.5.jar:"/>
+    <property name="surefire.test.class.path" value="/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/test-classes:/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/classes:/home/dani/.m2/repository/junit/junit/4.11/junit-4.11.jar:/home/dani/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/dani/.m2/repository/org/slf4j/slf4j-api/2.0.20/slf4j-api-2.0.20.jar:/home/dani/.m2/repository/ch/qos/logback/logback-classic/1.6.5/logback-classic-1.6.5.jar:/home/dani/.m2/repository/ch/qos/logback/logback-core/1.6.5/logback-core-1.6.5.jar:/home/dani/.m2/repository/org/mongodb/mongodb-driver-sync/5.13.0/mongodb-driver-sync-5.13.0.jar:/home/dani/.m2/repository/org/mongodb/bson/5.13.0/bson-5.13.0.jar:/home/dani/.m2/repository/org/mongodb/mongodb-driver-core/5.13.0/mongodb-driver-core-5.13.0.jar:/home/dani/.m2/repository/org/mongodb/bson-record-codec/5.13.0/bson-record-codec-5.13.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/dani"/>
     <property name="user.language" value="pt"/>
@@ -27,7 +27,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/surefire/surefirebooter12568746082538932278.jar"/>
+    <property name="surefire.real.class.path" value="/home/dani/mestrado-academico/Projetos/OrchestraBaseApproach/orchestra-node/target/surefire/surefirebooter9383320202190496571.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="24+36-3646"/>
     <property name="user.name" value="dani"/>
@@ -53,6 +53,6 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="isCollectionsExtracting" classname="io.github.danielalmeida19.orchestranode.OrchestraNodeTest" time="0.052"/>
-  <testcase name="contextLoads" classname="io.github.danielalmeida19.orchestranode.OrchestraNodeTest" time="0.001"/>
+  <testcase name="isCollectionsExtracting" classname="io.github.danielalmeida19.orchestranode.OrchestraNodeTest" time="0"/>
+  <testcase name="contextLoads" classname="io.github.danielalmeida19.orchestranode.OrchestraNodeTest" time="0"/>
 </testsuite>

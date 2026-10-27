@@ -1,4 +1,4 @@
-package io.github.danielalmeida19.orchestranode.connectors;
+package io.github.danielalmeida19.orchestranode.database;
 
 /**
  * This just is a class to sinalize the tipe of the drivers to DBMS

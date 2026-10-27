@@ -8,7 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.danielalmeida19.orchestranode.connectors.OrchestraNodeDriver;
+import io.github.danielalmeida19.orchestranode.database.OrchestraNodeDriver;
 import io.github.danielalmeida19.orchestranode.evolutioncore.SchemaProcessor;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
 

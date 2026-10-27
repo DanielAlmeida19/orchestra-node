@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import io.github.danielalmeida19.orchestranode.annotations.PriorityLevel;
+import io.github.danielalmeida19.orchestranode.utils.CollectionUtils;
 
 public class Collection {
 
@@ -105,7 +106,16 @@ public class Collection {
                 return field;
             }
         }
-        return null; // or throw an exception if you prefer
+        return null;
+    }
+
+    public void fillValuesFromClass(Class<?> clazz) {
+
+        // TODO: Finish this method urgent
+        if (!CollectionUtils.thereIsCollectionByName(clazz.getName())) {
+            throw new IllegalArgumentException(
+                    "The collection %s mismatch with the class %s".formatted(name, clazz.getName()));
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package io.github.danielalmeida19.orchestranode.connectors;
+package io.github.danielalmeida19.orchestranode.database;
 
 /**
  * Enum that represents the state of the current Connection
