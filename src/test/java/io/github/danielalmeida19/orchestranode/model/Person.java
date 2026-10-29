@@ -1,5 +1,7 @@
 package io.github.danielalmeida19.orchestranode.model;
 
+import java.util.List;
+
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraCollection;
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraField;
 import io.github.danielalmeida19.orchestranode.annotations.PriorityLevel;
@@ -10,11 +12,15 @@ public class Person {
     @OrchestraField(name = "name", nullable = false)
     private String name;
 
-    @OrchestraField(name = "age")
-    private int age;
+    @OrchestraField
+    private String surname;
 
     @OrchestraField
     private boolean active;
 
-    private boolean test;
+    @OrchestraField
+    private List<String> habilities;
+
+    // @OrchestraField
+    // private Address address;
 }

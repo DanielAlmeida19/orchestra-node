@@ -8,11 +8,11 @@ io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/ArrayValue.c
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/NumberField.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/Value.class
 io/github/danielalmeida19/orchestranode/annotations/PriorityLevel.class
-io/github/danielalmeida19/orchestranode/connectors/Connection$1.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/BooleanValue.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/ListField.class
 io/github/danielalmeida19/orchestranode/annotations/OrchestraCollection.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/StringField.class
+io/github/danielalmeida19/orchestranode/database/Connection$1.class
 io/github/danielalmeida19/orchestranode/App.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/StringValue.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/NumberValue.class

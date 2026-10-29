@@ -18,6 +18,7 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
 
     private MongoConnector connector;
     private Collection collection;
+    private Class<T> clazz;
 
     public MongoEntityDAO(Connection connection, Class<T> clazz) {
         Collection newCollection = CollectionUtils.getCollectionByName(clazz.getName());
@@ -31,6 +32,7 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
 
         connector = new MongoConnector(connection);
         collection = newCollection;
+        this.clazz = clazz;
 
     }
 

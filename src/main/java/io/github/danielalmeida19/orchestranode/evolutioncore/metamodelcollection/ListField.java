@@ -19,6 +19,14 @@ public class ListField<T> extends CollectionField<List<T>> {
         this.elementType = elementType;
     }
 
+    public Class<?> getElementType() {
+        return elementType;
+    }
+
+    public void setElementType(Class<?> elementType) {
+        this.elementType = elementType;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

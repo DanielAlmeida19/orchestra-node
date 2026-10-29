@@ -14,15 +14,12 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.NumberField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ObjectField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.StringField;
+import io.github.danielalmeida19.orchestranode.utils.CollectionFieldUtils;
 
 public class SchemaProcessor {
 
     public static Collection processClass(Class<?> clazz) {
 
-        // If the class doesn't have the annotation Collection, ignore
-        if (!clazz.isAnnotationPresent(OrchestraCollection.class)) {
-            return null;
-        }
         Collection collection = new Collection();
 
         // Obtain the annotation of the class
@@ -64,7 +61,7 @@ public class SchemaProcessor {
         // Define the name of the field if filled, else the name of the java field
         String fieldName = fieldAnnotation.name().isEmpty() ? field.getName() : fieldAnnotation.name();
 
-        if (isPrimitiveType(field.getType())) {
+        if (CollectionFieldUtils.isPrimitiveType(field.getType())) {
             switch (field.getType().getName()) {
                 case "java.lang.String":
                     return new StringField(fieldName, fieldAnnotation.external(), fieldAnnotation.nullable(),
@@ -93,7 +90,7 @@ public class SchemaProcessor {
             if (actualTypeArguments.length > 0) {
 
                 Type itemType = actualTypeArguments[0];
-                if (isPrimitiveType(itemType.getClass())) {
+                if (CollectionFieldUtils.isPrimitiveType(itemType.getClass())) {
                     switch (itemType.getTypeName()) {
                         case "java.lang.String":
                             return new ListField<String>(fieldName, String.class);
@@ -141,11 +138,6 @@ public class SchemaProcessor {
         }
 
         return false;
-    }
-
-    public static boolean isPrimitiveType(Class<?> type) {
-        return type.isPrimitive() || type.equals(String.class);
-
     }
 
 }

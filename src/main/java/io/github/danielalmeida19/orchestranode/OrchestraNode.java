@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.danielalmeida19.orchestranode.annotations.OrchestraCollection;
 import io.github.danielalmeida19.orchestranode.database.OrchestraNodeDriver;
 import io.github.danielalmeida19.orchestranode.evolutioncore.SchemaProcessor;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
@@ -63,11 +64,12 @@ public class OrchestraNode {
 
         // Process the classes from the managed package
         for (Class<?> clazz : classes) {
-            Collection newCollection = SchemaProcessor.processClass(clazz);
-
-            if (newCollection == null) {
+            // If the class doesn't have the annotation Collection, ignore
+            if (!clazz.isAnnotationPresent(OrchestraCollection.class)) {
                 continue;
             }
+            System.out.println(clazz.getName());
+            Collection newCollection = SchemaProcessor.processClass(clazz);
 
             log.info("Adding collection " + newCollection.getName());
             extractedCollections.add(newCollection);

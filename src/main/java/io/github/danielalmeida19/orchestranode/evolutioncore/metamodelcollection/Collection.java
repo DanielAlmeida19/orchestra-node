@@ -109,13 +109,4 @@ public class Collection {
         return null;
     }
 
-    public void fillValuesFromClass(Class<?> clazz) {
-
-        // TODO: Finish this method urgent
-        if (!CollectionUtils.thereIsCollectionByName(clazz.getName())) {
-            throw new IllegalArgumentException(
-                    "The collection %s mismatch with the class %s".formatted(name, clazz.getName()));
-        }
-    }
-
 }
