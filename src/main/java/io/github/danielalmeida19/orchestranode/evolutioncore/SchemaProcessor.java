@@ -150,27 +150,28 @@ public class SchemaProcessor {
                 getCollectionFieldListByClass(field.getType()),
                 fieldAnnotation.external(),
                 fieldAnnotation.nullable(),
-                fieldAnnotation.ignorable());
+                fieldAnnotation.ignorable(),
+                field.getType());
 
     }
 
     public static boolean isListOfObjects(Field field) {
 
         // 1. Verify the type of the field is assinable for List
-        if (!List.class.isAssignableFrom(field.getType())) {
-            return false;
+        if (List.class.isAssignableFrom(field.getType())) {
+            return true;
         }
 
         // 2. Verify if have declared generic arguments
-        Type genericType = field.getGenericType();
-        if (genericType instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = (ParameterizedType) genericType;
-            Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-
-            if (actualTypeArguments.length > 0) {
-                return true;
-            }
-        }
+        // Type genericType = field.getGenericType();
+        // if (genericType instanceof ParameterizedType) {
+        // ParameterizedType parameterizedType = (ParameterizedType) genericType;
+        // Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        //
+        // if (actualTypeArguments.length > 0) {
+        // return true;
+        // }
+        // }
 
         return false;
     }

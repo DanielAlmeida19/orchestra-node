@@ -9,4 +9,10 @@ public class Address {
 
     @OrchestraField
     private int number;
+
+    public Address(String street, int number) {
+        this.street = street;
+        this.number = number;
+    }
+
 }

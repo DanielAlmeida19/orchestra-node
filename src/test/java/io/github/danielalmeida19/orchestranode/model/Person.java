@@ -23,4 +23,13 @@ public class Person {
 
     @OrchestraField
     private Address address;
+
+    public Person(String name, String surname, boolean active, List<String> habilities, Address address) {
+        this.name = name;
+        this.surname = surname;
+        this.active = active;
+        this.habilities = habilities;
+        this.address = address;
+    }
+
 }

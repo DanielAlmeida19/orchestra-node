@@ -1,11 +1,13 @@
 package io.github.danielalmeida19.orchestranode.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.CollectionField;
-import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ListField;
 
 /**
  * Utilitary class to useful operations necessary for Collection Fields
@@ -77,39 +79,97 @@ public class CollectionFieldUtils {
 
     }
 
-    // public static <E, T> List<E> getValueFieldFromList(String fieldName, T
-    // instance, Class<T> clazz,
-    // Class<E> elementType) {
-    // for (Field field : clazz.getFields()) {
-    // if (!field.isAnnotationPresent(OrchestraField.class)) {
-    // continue;
-    // }
-    //
-    // // If collection field name and the compiled field name are the same
-    // if (fieldName.equals(field.getName())) {
-    // field.setAccessible(true);
-    //
-    // var value = field.get(instance);
-    //
-    // return clazz.cast(value);
-    //
-    // }
-    //
-    // var fieldAnnotation = field.getAnnotation(OrchestraField.class);
-    //
-    // // If collection field name have the name altered in own construction
-    // if (collectionField.getName().equals(fieldAnnotation.name())) {
-    // field.setAccessible(true);
-    //
-    // var value = field.get(instance);
-    //
-    // if (!(field.getType() == clazz)) {
-    // throw new IllegalArgumentException("The instance type is wrong mapped to
-    // Collection");
-    // }
-    //
-    // return clazz.cast(value);
-    // }
-    // }
-    // }
+    public static <E, T> List<E> getValueFieldFromList(
+            String fieldName,
+            T instance,
+            Class<T> clazz,
+            Class<E> elementType)
+            throws IllegalArgumentException, IllegalAccessException {
+
+        Field field = findAnnotedFieldByName(fieldName, clazz);
+
+        if (field == null) {
+            throw new IllegalArgumentException("No matching field found: " + fieldName);
+        }
+
+        // Verify if is list
+        if (!List.class.isAssignableFrom(field.getType())) {
+            throw new IllegalArgumentException("The type of a field mapped to ListField need be a List");
+        }
+
+        Class<?> realItemType = getGenericTypeInAListField(field);
+        if (realItemType == null || realItemType != elementType) {
+            throw new IllegalArgumentException(
+                    "The internal type of the Field %s mapped to a ListField of %s mismatch".formatted(
+                            realItemType,
+                            elementType));
+        }
+
+        field.setAccessible(true);
+        List<?> values = (List<?>) field.get(instance);
+
+        List<E> mappedValues = new ArrayList<>();
+
+        for (Object value : values) {
+            mappedValues.add(elementType.cast(value));
+        }
+
+        return mappedValues;
+    }
+
+    private static Class<?> getGenericTypeInAListField(Field field) {
+        ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
+        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+
+        if (actualTypeArguments.length > 0) {
+
+            Type itemType = actualTypeArguments[0];
+
+            return (Class<?>) itemType;
+        }
+        return null;
+    }
+
+    public static <T, E> T getSubInstance(
+            String fieldName,
+            E instance,
+            Class<E> clazz,
+            Class<T> internalClass)
+            throws IllegalArgumentException, IllegalAccessException {
+
+        Field field = findAnnotedFieldByName(fieldName, clazz);
+
+        if (field == null) {
+            throw new IllegalArgumentException("No matching field found: " + fieldName);
+        }
+
+        // Verify if the field of the instance and the field of the internal class are
+        // the same
+        if (field.getType() != internalClass) {
+            String msg = "The type of the field %s is %s but is expected %s".formatted(fieldName,
+                    field.getType().getName(), internalClass.getName());
+            throw new IllegalArgumentException(msg);
+        }
+
+        field.setAccessible(true);
+
+        return internalClass.cast(field.get(instance));
+
+    }
+
+    private static Field findAnnotedFieldByName(String fieldName, Class<?> clazz) {
+        for (Field field : clazz.getFields()) {
+            if (!field.isAnnotationPresent(OrchestraField.class)) {
+                return null;
+            }
+
+            var fieldAnnotation = field.getAnnotation(OrchestraField.class);
+
+            // If collection field name and the compiled field name are the same
+            if (fieldName.equals(field.getName()) || fieldName.equals(fieldAnnotation.name())) {
+                return field;
+            }
+        }
+        return null;
+    }
 }

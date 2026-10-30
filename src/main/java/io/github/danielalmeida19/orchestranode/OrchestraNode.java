@@ -15,7 +15,7 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.SchemaProcessor;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
 
 /**
- * This is a util class to initiate the middleware in different modes
+ * This is a util class to initiate and use the middleware in different modes
  *
  * @author Daniel
  */

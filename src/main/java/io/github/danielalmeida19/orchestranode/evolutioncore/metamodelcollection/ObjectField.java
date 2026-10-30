@@ -7,16 +7,20 @@ import java.util.List;
  */
 public class ObjectField extends CollectionField<List<CollectionField<?>>> {
 
+    Class<?> internalClass;
+
     public ObjectField() {
         super();
     }
 
-    public ObjectField(String name) {
+    public ObjectField(String name, Class<?> internalClass) {
         super(name);
+        this.internalClass = internalClass;
     }
 
-    public ObjectField(String name, List<CollectionField<?>> value) {
+    public ObjectField(String name, List<CollectionField<?>> value, Class<?> internalClass) {
         super(name, value);
+        this.internalClass = internalClass;
     }
 
     public ObjectField(
@@ -24,8 +28,18 @@ public class ObjectField extends CollectionField<List<CollectionField<?>>> {
             List<CollectionField<?>> value,
             String external,
             boolean nullable,
-            boolean ignorable) {
+            boolean ignorable,
+            Class<?> internalClass) {
         super(name, value, external, nullable, ignorable);
+        this.internalClass = internalClass;
+    }
+
+    public Class<?> getInternalClass() {
+        return internalClass;
+    }
+
+    public void setInternalClass(Class<?> internalClass) {
+        this.internalClass = internalClass;
     }
 
     @Override

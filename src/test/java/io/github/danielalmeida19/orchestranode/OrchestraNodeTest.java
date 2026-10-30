@@ -13,6 +13,7 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.NumberField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ObjectField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.StringField;
+import io.github.danielalmeida19.orchestranode.model.Address;
 
 public class OrchestraNodeTest {
 
@@ -52,7 +53,7 @@ public class OrchestraNodeTest {
                 new ObjectField("address", List.of(
                         new StringField("street", "", true, true),
                         new NumberField("number", "", true, true)),
-                        "", true, true),
+                        Address.class),
                 new BooleanField("active"),
                 new ListField<String>("habilities", "", true, true, String.class)));
 

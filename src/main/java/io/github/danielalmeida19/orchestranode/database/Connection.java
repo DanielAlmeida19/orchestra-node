@@ -28,17 +28,35 @@ public class Connection {
     private String databaseName;
 
     /**
-     * The state of the connection, if is i
+     * The state of the connection, if is in use, available or not instatiated
      */
     private ConnectionState connectionState;
 
-    public Connection(OrchestraNodeDriver driver, String host, String port, String databaseName,
-            ConnectionState connectionState) {
+    /**
+     * The name of the with access to database
+     */
+    private String user;
+
+    /**
+     * The password of the user
+     */
+    private String password;
+
+    public Connection(
+            OrchestraNodeDriver driver,
+            String host,
+            String port,
+            String databaseName,
+            ConnectionState connectionState,
+            String user,
+            String password) {
         this.driver = driver;
         this.host = host;
         this.port = port;
         this.databaseName = databaseName;
         this.connectionState = connectionState;
+        this.user = user;
+        this.password = password;
     }
 
     public OrchestraNodeDriver getDriver() {
@@ -79,6 +97,22 @@ public class Connection {
 
     public void setConnectionState(ConnectionState connectionState) {
         this.connectionState = connectionState;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getURI() {

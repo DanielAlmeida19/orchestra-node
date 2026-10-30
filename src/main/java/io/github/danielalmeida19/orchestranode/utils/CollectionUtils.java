@@ -1,6 +1,5 @@
 package io.github.danielalmeida19.orchestranode.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -11,6 +10,7 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.CollectionField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ListField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.NumberField;
+import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ObjectField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.StringField;
 
 /**
@@ -25,6 +25,8 @@ public class CollectionUtils {
      * this execution of OrchestraNode or return null
      */
     public static Collection getCollectionByName(String name) {
+
+        // FIX: This generate an error, need to check the name in annotations too
         List<Collection> collections = OrchestraNode.getCollections();
         for (Collection collection : collections) {
             if (collection.getName().equals(name)) {
@@ -50,11 +52,14 @@ public class CollectionUtils {
         return false;
     }
 
-    public static <T> Document getDocumentFromCollectionClass(Collection collection, T instance, Class<T> clazz)
+    public static <T> Document getDocumentFromCollectionClass(
+            List<CollectionField<?>> collectionFields,
+            T instance,
+            Class<T> clazz)
             throws IllegalArgumentException, IllegalAccessException {
         Document document = new Document();
 
-        for (CollectionField<?> collectionField : collection.getFields()) {
+        for (CollectionField<?> collectionField : collectionFields) {
             switch (collectionField) {
                 case BooleanField b:
                     document.put(b.getName(), CollectionFieldUtils
@@ -74,27 +79,40 @@ public class CollectionUtils {
                 case ListField<?> l:
                     Class<?> elementType = l.getElementType();
 
-                    // Verify if is a list of primitive values
-                    if (CollectionFieldUtils.isPrimitiveType(elementType)) {
-                        document.put(l.getName(), l.getValue());
+                    document.put(
+                            l.getName(),
+                            CollectionFieldUtils.getValueFieldFromList(
+                                    l.getName(),
+                                    instance,
+                                    clazz,
+                                    elementType));
+                    break;
 
-                    } else {
-                        // This assume that DOES NOT have nested lists like List<List<String>> in the
-                        // object directally.
-                        // The treatment for these cases will be implemented in the future
+                case ObjectField o:
 
-                        //
-                    }
+                    Class<?> internalClassType = o.getInternalClass();
+                    Object actualFieldInstance = CollectionFieldUtils.getSubInstance(o.getName(), instance, clazz,
+                            internalClassType);
+
+                    document.put(
+                            o.getName(),
+                            recursiveDocument(collectionFields, actualFieldInstance, internalClassType));
 
                 default:
                     break;
 
             }
 
-            document.put(collectionField.getName(), CollectionFieldUtils
-                    .getValueFieldFromClassCollection(collectionField, clazz, instance, null));
         }
 
         return document;
+    }
+
+    private static <T> Document recursiveDocument(
+            List<CollectionField<?>> collectionFields,
+            Object instance,
+            Class<T> clazz)
+            throws IllegalArgumentException, IllegalAccessException {
+        return getDocumentFromCollectionClass(collectionFields, clazz.cast(instance), clazz);
     }
 }

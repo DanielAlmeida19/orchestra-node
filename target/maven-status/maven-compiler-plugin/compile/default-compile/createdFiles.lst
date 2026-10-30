@@ -24,7 +24,6 @@ io/github/danielalmeida19/orchestranode/database/ConnectionState.class
 io/github/danielalmeida19/orchestranode/database/Connection$1.class
 io/github/danielalmeida19/orchestranode/utils/CollectionFieldUtils.class
 io/github/danielalmeida19/orchestranode/database/dao/MongoEntityDAO.class
-io/github/danielalmeida19/orchestranode/App.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/StringValue.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/NumberValue.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/BooleanField.class
