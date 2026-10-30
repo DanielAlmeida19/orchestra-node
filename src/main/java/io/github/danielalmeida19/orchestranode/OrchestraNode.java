@@ -3,6 +3,7 @@ package io.github.danielalmeida19.orchestranode;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -68,7 +69,7 @@ public class OrchestraNode {
             if (!clazz.isAnnotationPresent(OrchestraCollection.class)) {
                 continue;
             }
-            System.out.println(clazz.getName());
+
             Collection newCollection = SchemaProcessor.processClass(clazz);
 
             log.info("Adding collection " + newCollection.getName());
@@ -93,14 +94,21 @@ public class OrchestraNode {
             URL resource = classLoader.getResource(path);
 
             if (resource != null) {
+
                 File directory = new File(resource.getFile());
                 if (directory.exists()) {
+
                     for (String file : directory.list()) {
+
                         if (file.endsWith(".class")) {
+
                             String className = managedPackage + '.' + file.substring(0, file.length() - 6);
                             classes.add(Class.forName(className));
+
                         }
                     }
+                } else {
+                    log.warn("The directory %s does not exist".formatted(resource.toString()));
                 }
             }
             return classes;
@@ -108,7 +116,7 @@ public class OrchestraNode {
             log.error(
                     "An error ocurred in package desserialization, check if the directory exists or the files are correct formatted",
                     e);
-            return null;
+            return Collections.emptyList();
         }
 
     }

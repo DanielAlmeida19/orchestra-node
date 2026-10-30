@@ -21,6 +21,6 @@ public class Person {
     @OrchestraField
     private List<String> habilities;
 
-    // @OrchestraField
-    // private Address address;
+    @OrchestraField
+    private Address address;
 }

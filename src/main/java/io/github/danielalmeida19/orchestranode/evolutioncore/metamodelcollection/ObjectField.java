@@ -19,6 +19,15 @@ public class ObjectField extends CollectionField<List<CollectionField<?>>> {
         super(name, value);
     }
 
+    public ObjectField(
+            String name,
+            List<CollectionField<?>> value,
+            String external,
+            boolean nullable,
+            boolean ignorable) {
+        super(name, value, external, nullable, ignorable);
+    }
+
     @Override
     public String toString() {
 

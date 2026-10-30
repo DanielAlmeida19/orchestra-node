@@ -3,7 +3,11 @@ package io.github.danielalmeida19.orchestranode.evolutioncore;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraCollection;
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraField;
@@ -18,6 +22,8 @@ import io.github.danielalmeida19.orchestranode.utils.CollectionFieldUtils;
 
 public class SchemaProcessor {
 
+    private static final Logger log = LoggerFactory.getLogger(SchemaProcessor.class);
+
     public static Collection processClass(Class<?> clazz) {
 
         Collection collection = new Collection();
@@ -31,6 +37,15 @@ public class SchemaProcessor {
         // Define the priority Level of collection
         collection.setPriorityLevel(collectionAnnotation.priorityLevel());
 
+        // Define the fiels of the collection
+        collection.setFields(getCollectionFieldListByClass(clazz));
+
+        return collection;
+    }
+
+    private static List<CollectionField<?>> getCollectionFieldListByClass(Class<?> clazz) {
+        List<CollectionField<?>> collectionFields = new ArrayList<>();
+
         // Iterates through the attributes declared in the class
         for (Field field : clazz.getDeclaredFields()) {
             CollectionField<?> newField = processField(field);
@@ -39,10 +54,9 @@ public class SchemaProcessor {
                 continue;
             }
 
-            collection.getFields().add(newField);
+            collectionFields.add(newField);
         }
-
-        return collection;
+        return collectionFields;
     }
 
     public static CollectionField<?> processField(Field field) {
@@ -62,6 +76,7 @@ public class SchemaProcessor {
         String fieldName = fieldAnnotation.name().isEmpty() ? field.getName() : fieldAnnotation.name();
 
         if (CollectionFieldUtils.isPrimitiveType(field.getType())) {
+
             switch (field.getType().getName()) {
                 case "java.lang.String":
                     return new StringField(fieldName, fieldAnnotation.external(), fieldAnnotation.nullable(),
@@ -90,32 +105,52 @@ public class SchemaProcessor {
             if (actualTypeArguments.length > 0) {
 
                 Type itemType = actualTypeArguments[0];
-                if (CollectionFieldUtils.isPrimitiveType(itemType.getClass())) {
+
+                if (CollectionFieldUtils.isPrimitiveType((Class<?>) itemType)) {
                     switch (itemType.getTypeName()) {
                         case "java.lang.String":
-                            return new ListField<String>(fieldName, String.class);
+                            return new ListField<String>(
+                                    fieldName,
+                                    fieldAnnotation.external(),
+                                    fieldAnnotation.nullable(),
+                                    fieldAnnotation.ignorable(),
+                                    String.class);
 
                         case "int":
                         case "float":
                         case "double":
-                            return new ListField<Number>(fieldName, Number.class);
+                            return new ListField<Number>(
+                                    fieldName,
+                                    fieldAnnotation.external(),
+                                    fieldAnnotation.nullable(),
+                                    fieldAnnotation.ignorable(),
+                                    Number.class);
 
                         default:
-                            return new ListField<>(fieldName, (Class<?>) itemType);
+                            return new ListField<>(
+                                    fieldName,
+                                    fieldAnnotation.external(),
+                                    fieldAnnotation.nullable(),
+                                    fieldAnnotation.ignorable(),
+                                    (Class<?>) itemType);
                     }
                 }
             }
         }
 
         // If isn't any previous option, is an object field
-        Collection internalCollection = processClass(field.getClass());
 
         if (!fieldAnnotation.external().isEmpty()) {
             System.out.println("Sorry, this treatment doesn't exists yet");
             return null;
         }
 
-        return new ObjectField(fieldName, internalCollection.getFields());
+        return new ObjectField(
+                fieldName,
+                getCollectionFieldListByClass(field.getType()),
+                fieldAnnotation.external(),
+                fieldAnnotation.nullable(),
+                fieldAnnotation.ignorable());
 
     }
 

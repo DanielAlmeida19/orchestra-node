@@ -14,6 +14,14 @@ public abstract class CollectionField<T> {
 
     }
 
+    public CollectionField(String name, T value, String external, boolean nullable, boolean ignorable) {
+        this.name = name;
+        this.value = value;
+        this.external = external;
+        this.nullable = nullable;
+        this.ignorable = ignorable;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

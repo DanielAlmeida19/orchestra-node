@@ -47,13 +47,14 @@ public class OrchestraNodeTest {
         expectedPerson.setName("Persons");
         expectedPerson.setPriorityLevel(PriorityLevel.NORMAL);
         expectedPerson.setFields(List.of(
-                new StringField("name"),
-                new StringField("surname"),
+                new StringField("name", "", false, true),
+                new StringField("surname", "", true, true),
                 new ObjectField("address", List.of(
-                        new StringField("street"),
-                        new NumberField("number"))),
+                        new StringField("street", "", true, true),
+                        new NumberField("number", "", true, true)),
+                        "", true, true),
                 new BooleanField("active"),
-                new ListField<String>("habilities", String.class)));
+                new ListField<String>("habilities", "", true, true, String.class)));
 
         System.out.println(collections.getFirst());
         assertEquals(expectedPerson, collections.getFirst());
