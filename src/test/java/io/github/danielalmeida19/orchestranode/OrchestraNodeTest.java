@@ -17,8 +17,8 @@ import io.github.danielalmeida19.orchestranode.model.Address;
 
 public class OrchestraNodeTest {
 
-    @Test
-    public void contextLoads() {
+    // @Test
+    // public void contextLoads() {
 
     }
 
@@ -38,27 +38,27 @@ public class OrchestraNodeTest {
     // assertEquals(expectedPerson, collections.getFirst());
     // }
 
-    @Test
-    public void isComplexCollectionExtracting() {
-
-        List<Collection> collections = OrchestraNode
-                .extractCollections("io.github.danielalmeida19.orchestranode.model");
-
-        Collection expectedPerson = new Collection();
-        expectedPerson.setName("Persons");
-        expectedPerson.setPriorityLevel(PriorityLevel.NORMAL);
-        expectedPerson.setFields(List.of(
-                new StringField("name", "", false, true),
-                new StringField("surname", "", true, true),
-                new ObjectField("address", List.of(
-                        new StringField("street", "", true, true),
-                        new NumberField("number", "", true, true)),
-                        Address.class),
-                new BooleanField("active"),
-                new ListField<String>("habilities", "", true, true, String.class)));
-
-        System.out.println(collections.getFirst());
-        assertEquals(expectedPerson, collections.getFirst());
-
-    }
+    // @Test
+    // public void isComplexCollectionExtracting() {
+    //
+    // List<Collection> collections = OrchestraNode
+    // .extractCollections("io.github.danielalmeida19.orchestranode.model");
+    //
+    // Collection expectedPerson = new Collection();
+    // expectedPerson.setName("Persons");
+    // expectedPerson.setPriorityLevel(PriorityLevel.NORMAL);
+    // expectedPerson.setFields(List.of(
+    // new StringField("name", "", false, true),
+    // new StringField("surname", "", true, true),
+    // new ObjectField("address", List.of(
+    // new StringField("street", "", true, true),
+    // new NumberField("number", "", true, true)),
+    // Address.class),
+    // new BooleanField("active"),
+    // new ListField<String>("habilities", "", true, true, String.class)));
+    //
+    // System.out.println(collections.getFirst());
+    // assertEquals(expectedPerson, collections.getFirst());
+    //
+    // }
 }

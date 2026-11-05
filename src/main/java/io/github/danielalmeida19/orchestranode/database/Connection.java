@@ -127,6 +127,8 @@ public class Connection {
         }
 
         sb.append("://");
+        sb.append(user).append(":");
+        sb.append(password).append("@");
         sb.append(host).append(":");
         sb.append(port);
 

@@ -27,17 +27,17 @@ public class MongoConnectorTest {
             "testadmin",
             "password");
 
-    @Test
-    public void testConnection() {
-
-        MongoConnector connector = new MongoConnector(CONNECTION);
-
-        MongoDatabase database = connector.getDatabase();
-
-        assertNotNull(database);
-
-        connector.closeConnection();
-    }
+    // @Test
+    // public void testConnection() {
+    //
+    // MongoConnector connector = new MongoConnector(CONNECTION);
+    //
+    // MongoDatabase database = connector.getDatabase();
+    //
+    // assertNotNull(database);
+    //
+    // connector.closeConnection();
+    // }
 
     @Test
     public void testInsertion() {

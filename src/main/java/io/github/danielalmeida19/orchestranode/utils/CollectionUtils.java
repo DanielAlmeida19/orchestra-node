@@ -1,10 +1,12 @@
 package io.github.danielalmeida19.orchestranode.utils;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import org.bson.Document;
 
 import io.github.danielalmeida19.orchestranode.OrchestraNode;
+import io.github.danielalmeida19.orchestranode.annotations.OrchestraCollection;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.BooleanField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.CollectionField;
@@ -24,12 +26,18 @@ public class CollectionUtils {
      * Method to get a collection by name in the list of collections presents in
      * this execution of OrchestraNode or return null
      */
-    public static Collection getCollectionByName(String name) {
+    public static Collection getCollectionByClass(Class<?> clazz) {
 
-        // FIX: This generate an error, need to check the name in annotations too
+        if (!clazz.isAnnotationPresent(OrchestraCollection.class)) {
+            return null;
+        }
+
+        var annotation = clazz.getAnnotation(OrchestraCollection.class);
+
         List<Collection> collections = OrchestraNode.getCollections();
         for (Collection collection : collections) {
-            if (collection.getName().equals(name)) {
+            String collectionName = collection.getName();
+            if (collectionName.equals(clazz.getSimpleName()) || collectionName.equals(annotation.name())) {
                 return collection;
             }
         }
@@ -60,20 +68,22 @@ public class CollectionUtils {
         Document document = new Document();
 
         for (CollectionField<?> collectionField : collectionFields) {
+
+            Field field = CollectionFieldUtils.findAnnotatedFieldByName(collectionField.getName(), clazz);
+
             switch (collectionField) {
                 case BooleanField b:
-                    document.put(b.getName(), CollectionFieldUtils
-                            .getValueFieldFromClassCollection(b, clazz, instance, boolean.class));
+                    document.put(b.getName(), CollectionFieldUtils.getBooleanFieldValue(field, instance));
                     break;
 
                 case StringField s:
                     document.put(s.getName(),
-                            CollectionFieldUtils.getValueFieldFromClassCollection(s, clazz, instance, String.class));
+                            CollectionFieldUtils.getStringFieldValue(field, instance));
                     break;
 
                 case NumberField n:
                     document.put(n.getName(),
-                            CollectionFieldUtils.getValueFieldFromClassCollection(n, clazz, instance, Number.class));
+                            CollectionFieldUtils.getNumberFieldValue(field, instance));
                     break;
 
                 case ListField<?> l:
@@ -96,7 +106,7 @@ public class CollectionUtils {
 
                     document.put(
                             o.getName(),
-                            recursiveDocument(collectionFields, actualFieldInstance, internalClassType));
+                            recursiveDocument(o.getValue(), actualFieldInstance, internalClassType));
 
                 default:
                     break;

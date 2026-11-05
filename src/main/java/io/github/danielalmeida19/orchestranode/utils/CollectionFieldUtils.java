@@ -6,6 +6,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.CollectionField;
 
@@ -16,58 +19,94 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection
  */
 public class CollectionFieldUtils {
 
-    // private static final Logger log =
-    // LoggerFactory.getLogger(CollectionFieldUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(CollectionFieldUtils.class);
 
     /**
      * Method to be capable of extract the value of a Collection field from an
      * instance of class that generate the original collection of the field
      */
-    public static <T, K> T getValueFieldFromClassCollection(
-            CollectionField<T> collectionField,
-            Class<K> instanceClass,
-            K instance,
-            Class<T> clazz)
+    // public static <T, K> T getValueFieldFromClassCollection(
+    // CollectionField<T> collectionField,
+    // Class<K> instanceClass,
+    // K instance,
+    // Class<T> clazz)
+    // throws IllegalArgumentException, IllegalAccessException {
+    //
+    // Field field = findAnnotatedFieldByName(collectionField.getName(),
+    // instanceClass);
+    //
+    // if (field == null) {
+    // String message = "The original class \"%s\" does not have the field \"%s\""
+    // .formatted(instanceClass.getName(), collectionField.getName());
+    // throw new IllegalArgumentException(message);
+    // }
+    //
+    // field.setAccessible(true);
+    //
+    // log.debug("Type of the field: " + field.getType());
+    // log.debug("Expected Class value: " + clazz);
+    //
+    // if ((field.getType() != clazz)) {
+    // throw new IllegalArgumentException("The instance type is wrong mapped to
+    // Collection");
+    // }
+    //
+    // return (T) (field.get(instance));
+    //
+    // }
+
+    /**
+     * Method to get a Number value from a numeric field
+     */
+    public static <T> Number getNumberFieldValue(Field field, T instance)
             throws IllegalArgumentException, IllegalAccessException {
 
-        for (Field field : instanceClass.getFields()) {
+        field.setAccessible(true);
 
-            if (!field.isAnnotationPresent(OrchestraField.class)) {
-                continue;
-            }
+        Class<?> type = field.getType();
 
-            // If collection field name and the compiled field name are the same
-            if (collectionField.getName().equals(field.getName())) {
-                field.setAccessible(true);
-
-                var value = field.get(instance);
-
-                if (!(field.getType() == clazz)) {
-                    throw new IllegalArgumentException("The instance type is wrong mapped to Collection");
-                }
-
-                return clazz.cast(value);
-
-            }
-
-            var fieldAnnotation = field.getAnnotation(OrchestraField.class);
-
-            // If collection field name have the name altered in own construction
-            if (collectionField.getName().equals(fieldAnnotation.name())) {
-                field.setAccessible(true);
-
-                var value = field.get(instance);
-
-                if (!(field.getType() == clazz)) {
-                    throw new IllegalArgumentException("The instance type is wrong mapped to Collection");
-                }
-
-                return clazz.cast(value);
-            }
+        if (type == int.class ||
+                type == float.class ||
+                type == double.class) {
+            return (Number) field.get(instance);
         }
 
-        throw new IllegalArgumentException("The original class does not have this field");
+        throw new IllegalArgumentException("Field type \"%s\" is not supported numeric type".formatted(type.getName()));
+    }
 
+    /**
+     * Method to get a Boolean value from a boolean field
+     */
+    public static <T> boolean getBooleanFieldValue(Field field, T instance)
+            throws IllegalArgumentException, IllegalAccessException {
+
+        field.setAccessible(true);
+
+        Class<?> type = field.getType();
+
+        if (type == boolean.class ||
+                type == Boolean.class) {
+            return (Boolean) field.get(instance);
+        }
+
+        throw new IllegalArgumentException("Field type \"%s\" is not supported boolean type".formatted(type.getName()));
+    }
+
+    /**
+     * Method to get a Number value from a numeric field
+     */
+    public static <T> String getStringFieldValue(Field field, T instance)
+            throws IllegalArgumentException, IllegalAccessException {
+
+        field.setAccessible(true);
+
+        Class<?> type = field.getType();
+
+        if (type == String.class) {
+            return (String) field.get(instance);
+        }
+
+        throw new IllegalArgumentException("Field type \"%s\" is not supported String type".formatted(type.getName()));
     }
 
     /**
@@ -79,6 +118,10 @@ public class CollectionFieldUtils {
 
     }
 
+    /**
+     * Method to get a list of values represented by a List<Object> field in
+     * instance
+     */
     public static <E, T> List<E> getValueFieldFromList(
             String fieldName,
             T instance,
@@ -86,7 +129,7 @@ public class CollectionFieldUtils {
             Class<E> elementType)
             throws IllegalArgumentException, IllegalAccessException {
 
-        Field field = findAnnotedFieldByName(fieldName, clazz);
+        Field field = findAnnotatedFieldByName(fieldName, clazz);
 
         if (field == null) {
             throw new IllegalArgumentException("No matching field found: " + fieldName);
@@ -117,6 +160,9 @@ public class CollectionFieldUtils {
         return mappedValues;
     }
 
+    /**
+     * Method to get the internal Type of a List
+     */
     private static Class<?> getGenericTypeInAListField(Field field) {
         ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
@@ -130,6 +176,10 @@ public class CollectionFieldUtils {
         return null;
     }
 
+    /**
+     * Method to get the an nested object inside one another based on the fieldName
+     * and the internal class expected type
+     */
     public static <T, E> T getSubInstance(
             String fieldName,
             E instance,
@@ -137,7 +187,7 @@ public class CollectionFieldUtils {
             Class<T> internalClass)
             throws IllegalArgumentException, IllegalAccessException {
 
-        Field field = findAnnotedFieldByName(fieldName, clazz);
+        Field field = findAnnotatedFieldByName(fieldName, clazz);
 
         if (field == null) {
             throw new IllegalArgumentException("No matching field found: " + fieldName);
@@ -157,8 +207,13 @@ public class CollectionFieldUtils {
 
     }
 
-    private static Field findAnnotedFieldByName(String fieldName, Class<?> clazz) {
-        for (Field field : clazz.getFields()) {
+    /**
+     * Method to get the annotated field based or the name of the field in the
+     * compiled class or the name of the field in OrchestraField annotation
+     */
+    public static Field findAnnotatedFieldByName(String fieldName, Class<?> clazz) {
+        for (Field field : clazz.getDeclaredFields()) {
+
             if (!field.isAnnotationPresent(OrchestraField.class)) {
                 return null;
             }
@@ -172,4 +227,5 @@ public class CollectionFieldUtils {
         }
         return null;
     }
+
 }
