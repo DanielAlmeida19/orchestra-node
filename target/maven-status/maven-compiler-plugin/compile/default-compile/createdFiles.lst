@@ -14,6 +14,7 @@ io/github/danielalmeida19/orchestranode/database/dao/GenericDAO.class
 io/github/danielalmeida19/orchestranode/OrchestraNode.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/NumberField.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/Value.class
+io/github/danielalmeida19/orchestranode/database/mapper/DocumentMapper.class
 io/github/danielalmeida19/orchestranode/annotations/PriorityLevel.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodeldata/BooleanValue.class
 io/github/danielalmeida19/orchestranode/evolutioncore/metamodelcollection/ListField.class

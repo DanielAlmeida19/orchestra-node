@@ -24,11 +24,54 @@ public class Person {
     @OrchestraField
     private Address address;
 
+    public Person() {
+    }
+
     public Person(String name, String surname, boolean active, List<String> habilities, Address address) {
         this.name = name;
         this.surname = surname;
         this.active = active;
         this.habilities = habilities;
+        this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public List<String> getHabilities() {
+        return habilities;
+    }
+
+    public void setHabilities(List<String> habilities) {
+        this.habilities = habilities;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
         this.address = address;
     }
 

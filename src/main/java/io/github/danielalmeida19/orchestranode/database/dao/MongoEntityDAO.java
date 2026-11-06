@@ -1,14 +1,17 @@
 package io.github.danielalmeida19.orchestranode.database.dao;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 import io.github.danielalmeida19.orchestranode.database.Connection;
 import io.github.danielalmeida19.orchestranode.database.MongoConnector;
+import io.github.danielalmeida19.orchestranode.database.mapper.DocumentMapper;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
 import io.github.danielalmeida19.orchestranode.utils.CollectionUtils;
 
@@ -52,7 +55,7 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
     public void save(T instance) {
 
         try {
-            Document documentInstance = CollectionUtils.getDocumentFromCollectionClass(collection.getFields(), instance,
+            Document documentInstance = DocumentMapper.getDocumentFromCollectionClass(collection.getFields(), instance,
                     this.clazz);
             mongoCollection.insertOne(documentInstance);
 
@@ -63,7 +66,18 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
 
     @Override
     public T findById(String id) {
-        // TODO: Auto-generated method stub
+        Document document = mongoCollection.find(Filters.eq("_id", new ObjectId(id))).first();
+        log.debug(document.toJson());
+
+        if (document != null) {
+            try {
+                return DocumentMapper.getInstanceFromDocumentCollectionMapped(document, this.clazz,
+                        this.collection.getFields());
+
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+        }
         return null;
     }
 
