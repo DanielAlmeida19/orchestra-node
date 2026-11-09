@@ -1,5 +1,8 @@
 package io.github.danielalmeida19.orchestranode.database.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -97,5 +100,39 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    /**
+     * Method to find all instances in database in the collection
+     */
+    @Override
+    public List<T> findAll() {
+        try {
+            List<Document> documents = new ArrayList<>();
+
+            // Serching in the database
+            mongoCollection.find().into(documents);
+
+            List<T> instances = new ArrayList<>();
+            for (Document document : documents) {
+
+                // Converting the documents to in memories instances
+                instances.add(DocumentMapper.getInstanceFromDocumentCollectionMapped(document, clazz,
+                        collection.getFields()));
+            }
+
+            return instances;
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Method to drop the collection of the database to empty the database
+     */
+    public void drop() {
+        mongoCollection.drop();
     }
 }

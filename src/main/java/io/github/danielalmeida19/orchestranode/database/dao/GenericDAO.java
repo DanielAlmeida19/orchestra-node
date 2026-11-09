@@ -1,5 +1,7 @@
 package io.github.danielalmeida19.orchestranode.database.dao;
 
+import java.util.List;
+
 /**
  * Interface to provide the contrat of a class to implements Data Access Object
  * pattern.</br>
@@ -27,4 +29,9 @@ public interface GenericDAO<ID, T> {
      * Method to delete an instance of a generic class by a generic ID
      */
     void deleteById(ID id);
+
+    /**
+     * Method to find all instances of a generic class
+     */
+    List<T> findAll();
 }

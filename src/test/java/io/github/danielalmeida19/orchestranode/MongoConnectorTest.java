@@ -67,12 +67,44 @@ public class MongoConnectorTest {
     }
 
     @Test
-    public void deleteById() {
+    public void testDeleteById() {
         personDao.deleteById(testID);
 
         Person p1 = personDao.findById(testID);
 
         assertNull(p1);
+    }
+
+    public void testFindAll() {
+
+        personDao.drop();
+
+        Person p1 = new Person(
+                "Daniel",
+                "Almeida",
+                true,
+                List.of("Java", "Linux"),
+                new Address("The fool street", 0));
+
+        Person p2 = new Person(
+                "Miriã",
+                "Assis",
+                true,
+                List.of("Java", "Linux"),
+                new Address("The fool street", 0));
+
+        Person p3 = new Person(
+                "Lucas",
+                "Silva",
+                true,
+                List.of("Java", "Linux"),
+                new Address("The fool street", 0));
+
+        personDao.save(p1);
+        personDao.save(p2);
+        personDao.save(p3);
+
+        // List<Person> expected
     }
 
 }
