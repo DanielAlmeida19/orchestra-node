@@ -41,14 +41,14 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
         }
 
         connector = new MongoConnector(connection);
-        mongoCollection = connector.getDatabase().getCollection(clazz.getSimpleName());
+        mongoCollection = connector.getDatabase().getCollection(newCollection.getName());
         collection = newCollection;
         this.clazz = clazz;
 
     }
 
     /**
-     * Methor that use the collection pre setted in database using the class name
+     * Method that use the collection pre setted in database using the class name
      * and save the instance of the managed Class in MongoDB
      */
     @Override
@@ -64,6 +64,9 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
         }
     }
 
+    /**
+     * Method to find an T instance from String ID in a Collection in MongoDB
+     */
     @Override
     public T findById(String id) {
         Document document = mongoCollection.find(Filters.eq("_id", new ObjectId(id))).first();
@@ -71,8 +74,11 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
 
         if (document != null) {
             try {
-                return DocumentMapper.getInstanceFromDocumentCollectionMapped(document, this.clazz,
+                T instance = DocumentMapper.getInstanceFromDocumentCollectionMapped(document, this.clazz,
                         this.collection.getFields());
+
+                // log.debug(instance.toString());
+                return instance;
 
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -81,8 +87,15 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
         return null;
     }
 
+    /**
+     * Method to find and delete an instance by the ID in a collection in MongoDB
+     */
     @Override
     public void deleteById(String id) {
-        // TODO: Auto-generated method stub
+        try {
+            mongoCollection.deleteOne(Filters.eq("_id", new ObjectId(id)));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 }

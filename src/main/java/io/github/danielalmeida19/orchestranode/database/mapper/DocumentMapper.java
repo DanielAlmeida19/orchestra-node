@@ -226,26 +226,28 @@ public class DocumentMapper {
             InstantiationException,
             NoSuchMethodException {
 
-        if (!CollectionUtils.thereIsCollectionByClass(clazz)) {
-            String message = "The class \"%s\" is not a mapped collection. Check if you started the middleware and extracted the collections"
-                    .formatted(clazz.getName());
-            throw new IllegalArgumentException(message);
-        }
-
         T instance;
         instance = clazz.getDeclaredConstructor().newInstance();
         for (CollectionField<?> field : fields) {
             String fieldName = field.getName();
             Object value = document.get(fieldName);
+            log.info("Field name: %s".formatted(fieldName));
+            log.info("Field value: %s".formatted(value.toString()));
 
-            log.debug("Field name:".formatted(fieldName));
-            log.debug("Field value:".formatted(value));
             if (value != null) {
                 try {
                     Field instanceField = CollectionFieldUtils.findAnnotatedFieldByName(fieldName, clazz);
                     if (instanceField != null) {
                         instanceField.setAccessible(true);
-                        instanceField.set(instance, value);
+                        if (field instanceof ObjectField objectField) {
+                            Document documentValue = (Document) value;
+                            Object subInstanceValue = getInstanceFromDocumentCollectionMapped(documentValue,
+                                    objectField.getInternalClass(), objectField.getValue());
+
+                            instanceField.set(instance, subInstanceValue);
+                        } else {
+                            instanceField.set(instance, value);
+                        }
                     }
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException("Failed to set field " + fieldName + " on " + clazz.getName(), e);

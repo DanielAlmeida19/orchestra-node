@@ -1,6 +1,7 @@
 package io.github.danielalmeida19.orchestranode;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class MongoConnectorTest {
 
     private Connection connection;
     private MongoEntityDAO<Person> personDao;
+    private static final String testID = "6af1f67eb6cfb391b2e2e178";
 
     @Before
     public void setUp() {
@@ -59,9 +61,18 @@ public class MongoConnectorTest {
                 List.of("Java", "Linux"),
                 new Address("The fool street", 0));
 
-        Person p2 = personDao.findById("6aeca9858adee10124d16c1b");
+        Person p2 = personDao.findById(testID);
 
         assertEquals(p1, p2);
+    }
+
+    @Test
+    public void deleteById() {
+        personDao.deleteById(testID);
+
+        Person p1 = personDao.findById(testID);
+
+        assertNull(p1);
     }
 
 }
