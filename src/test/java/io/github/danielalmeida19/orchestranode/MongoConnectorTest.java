@@ -75,6 +75,7 @@ public class MongoConnectorTest {
         assertNull(p1);
     }
 
+    @Test
     public void testFindAll() {
 
         personDao.drop();
@@ -104,7 +105,11 @@ public class MongoConnectorTest {
         personDao.save(p2);
         personDao.save(p3);
 
-        // List<Person> expected
+        List<Person> expected = List.of(p1, p2, p3);
+
+        List<Person> persons = personDao.findAll();
+
+        assertEquals(expected, persons);
     }
 
 }

@@ -34,6 +34,8 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
     private Class<T> clazz;
 
     public MongoEntityDAO(Connection connection, Class<T> clazz) {
+
+        // Set the collection based on the name
         Collection newCollection = CollectionUtils.getCollectionByClass(clazz);
 
         if (newCollection == null) {
@@ -43,6 +45,7 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
                             .formatted(clazz.getName()));
         }
 
+        // Creating the connection
         connector = new MongoConnector(connection);
         mongoCollection = connector.getDatabase().getCollection(newCollection.getName());
         collection = newCollection;
@@ -58,8 +61,12 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
     public void save(T instance) {
 
         try {
+
+            // Converting the instance to a document
             Document documentInstance = DocumentMapper.getDocumentFromCollectionClass(collection.getFields(), instance,
                     this.clazz);
+
+            // Inserting the document in the database
             mongoCollection.insertOne(documentInstance);
 
         } catch (Exception e) {
@@ -72,11 +79,15 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
      */
     @Override
     public T findById(String id) {
+
+        // Obtain the document in the database
         Document document = mongoCollection.find(Filters.eq("_id", new ObjectId(id))).first();
         log.debug(document.toJson());
 
         if (document != null) {
             try {
+
+                // Converting the document to an instance
                 T instance = DocumentMapper.getInstanceFromDocumentCollectionMapped(document, this.clazz,
                         this.collection.getFields());
 
