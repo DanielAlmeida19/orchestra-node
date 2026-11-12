@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import io.github.danielalmeida19.orchestranode.annotations.CollectionId;
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraField;
 
 /**
@@ -48,14 +49,29 @@ public class CollectionFieldUtils {
     public static Field findAnnotatedFieldByName(String fieldName, Class<?> clazz) {
         for (Field field : clazz.getDeclaredFields()) {
 
+            if (field.isAnnotationPresent(CollectionId.class)) {
+                if (fieldName.equals(field.getName())) {
+                    return field;
+                }
+            }
+
             if (!field.isAnnotationPresent(OrchestraField.class)) {
-                return null;
+                continue;
             }
 
             var fieldAnnotation = field.getAnnotation(OrchestraField.class);
 
             // If collection field name and the compiled field name are the same
             if (fieldName.equals(field.getName()) || fieldName.equals(fieldAnnotation.name())) {
+                return field;
+            }
+        }
+        return null;
+    }
+
+    public static Field getFieldIdInClass(Class<?> clazz) {
+        for (Field field : clazz.getDeclaredFields()) {
+            if (field.isAnnotationPresent(CollectionId.class)) {
                 return field;
             }
         }

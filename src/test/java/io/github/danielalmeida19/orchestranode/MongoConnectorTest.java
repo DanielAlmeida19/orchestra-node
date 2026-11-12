@@ -19,7 +19,7 @@ public class MongoConnectorTest {
 
     private Connection connection;
     private MongoEntityDAO<Person> personDao;
-    private static final String testID = "6af1f67eb6cfb391b2e2e178";
+    private static final String testID = "123";
 
     @Before
     public void setUp() {
@@ -37,12 +37,14 @@ public class MongoConnectorTest {
                 "password");
 
         personDao = new MongoEntityDAO<>(connection, Person.class);
+        personDao.drop();
     }
 
     @Test
     public void testInsertion() {
 
         Person p1 = new Person(
+                testID,
                 "Daniel",
                 "Almeida",
                 true,
@@ -55,6 +57,7 @@ public class MongoConnectorTest {
     @Test
     public void testFindById() {
         Person p1 = new Person(
+                testID,
                 "Daniel",
                 "Almeida",
                 true,
@@ -81,6 +84,7 @@ public class MongoConnectorTest {
         personDao.drop();
 
         Person p1 = new Person(
+                "1",
                 "Daniel",
                 "Almeida",
                 true,
@@ -88,6 +92,7 @@ public class MongoConnectorTest {
                 new Address("The fool street", 0));
 
         Person p2 = new Person(
+                "2",
                 "Miriã",
                 "Assis",
                 true,
@@ -95,6 +100,7 @@ public class MongoConnectorTest {
                 new Address("The fool street", 0));
 
         Person p3 = new Person(
+                "3",
                 "Lucas",
                 "Silva",
                 true,

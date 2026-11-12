@@ -2,12 +2,17 @@ package io.github.danielalmeida19.orchestranode.model;
 
 import java.util.List;
 
+import io.github.danielalmeida19.orchestranode.annotations.CollectionId;
+import io.github.danielalmeida19.orchestranode.annotations.FillingPolicy;
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraCollection;
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraField;
 import io.github.danielalmeida19.orchestranode.annotations.PriorityLevel;
 
 @OrchestraCollection(name = "Persons", priorityLevel = PriorityLevel.NORMAL)
 public class Person {
+
+    @CollectionId(fillingPolicy = FillingPolicy.MANUALLY)
+    private String id;
 
     @OrchestraField(name = "name", nullable = false)
     private String name;
@@ -27,7 +32,8 @@ public class Person {
     public Person() {
     }
 
-    public Person(String name, String surname, boolean active, List<String> habilities, Address address) {
+    public Person(String id, String name, String surname, boolean active, List<String> habilities, Address address) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.active = active;

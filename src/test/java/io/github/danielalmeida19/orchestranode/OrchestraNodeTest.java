@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import io.github.danielalmeida19.orchestranode.annotations.FillingPolicy;
 import io.github.danielalmeida19.orchestranode.annotations.PriorityLevel;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.BooleanField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
+import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.IdField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ListField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.NumberField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ObjectField;
@@ -32,6 +34,7 @@ public class OrchestraNodeTest {
         expectedPerson.setName("Persons");
         expectedPerson.setPriorityLevel(PriorityLevel.NORMAL);
         expectedPerson.setFields(List.of(
+                new IdField<String>("id", FillingPolicy.MANUALLY),
                 new StringField("name", "", false, true),
                 new StringField("surname", "", true, true),
                 new ObjectField("address", List.of(

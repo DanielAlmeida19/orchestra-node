@@ -9,11 +9,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.danielalmeida19.orchestranode.annotations.CollectionId;
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraCollection;
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.BooleanField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.CollectionField;
+import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.IdField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ListField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.NumberField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.ObjectField;
@@ -60,6 +62,11 @@ public class SchemaProcessor {
     }
 
     public static CollectionField<?> processField(Field field) {
+
+        // Verify if is the attribute is the ID attribute
+        if (field.isAnnotationPresent(CollectionId.class)) {
+            return processID(field);
+        }
 
         // Verify if the attribute have the annotation @OrchestraField
         if (!field.isAnnotationPresent(OrchestraField.class)) {
@@ -153,6 +160,33 @@ public class SchemaProcessor {
                 fieldAnnotation.ignorable(),
                 field.getType());
 
+    }
+
+    /**
+     * Method to process an ID field based on a field with the correct annotation
+     */
+    private static CollectionField<?> processID(Field fieldId) {
+
+        var idAnnotation = fieldId.getAnnotation(CollectionId.class);
+
+        if (CollectionFieldUtils.isPrimitiveType(fieldId.getType())) {
+
+            switch (fieldId.getType().getName()) {
+                case "java.lang.String":
+                    return new IdField<String>(fieldId.getName(), idAnnotation.fillingPolicy());
+
+                case "int":
+                case "double":
+                case "float":
+
+                    return new IdField<Number>(fieldId.getName(), idAnnotation.fillingPolicy());
+                default:
+                    break;
+            }
+        }
+
+        String message = "The type \"%s\" is not a acceptable ID format".formatted(fieldId.getName());
+        throw new IllegalArgumentException(message);
     }
 
     public static boolean isListOfObjects(Field field) {
