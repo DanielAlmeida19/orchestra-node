@@ -121,7 +121,8 @@ public class DocumentMapper {
 
         switch (field.getType().getName()) {
             case "java.lang.String":
-                return new ObjectId(getStringFieldValue(field, instance));
+                String id = getStringFieldValue(field, instance);
+                return new ObjectId(id);
 
             case "int":
             case "float":

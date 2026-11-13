@@ -81,7 +81,6 @@ public class MongoEntityDAO<T> implements GenericDAO<String, T> {
 
         // Obtain the document in the database
         Document document = mongoCollection.find(Filters.eq("_id", new ObjectId(id))).first();
-        log.debug(document.toJson());
 
         if (document != null) {
             try {

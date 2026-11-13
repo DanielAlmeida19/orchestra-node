@@ -19,7 +19,7 @@ public class MongoConnectorTest {
 
     private Connection connection;
     private MongoEntityDAO<Person> personDao;
-    private static final String testID = "123";
+    private static final String testID = "123456789101112131415161";
 
     @Before
     public void setUp() {
@@ -52,10 +52,13 @@ public class MongoConnectorTest {
                 new Address("The fool street", 0));
 
         personDao.save(p1);
+
+        Person p2 = personDao.findById(testID);
+        assertEquals(p1, p2);
     }
 
     @Test
-    public void testFindById() {
+    public void testDeleteById() {
         Person p1 = new Person(
                 testID,
                 "Daniel",
@@ -64,18 +67,12 @@ public class MongoConnectorTest {
                 List.of("Java", "Linux"),
                 new Address("The fool street", 0));
 
-        Person p2 = personDao.findById(testID);
-
-        assertEquals(p1, p2);
-    }
-
-    @Test
-    public void testDeleteById() {
+        personDao.save(p1);
         personDao.deleteById(testID);
 
-        Person p1 = personDao.findById(testID);
+        Person p2 = personDao.findById(testID);
 
-        assertNull(p1);
+        assertNull(p2);
     }
 
     @Test
@@ -84,7 +81,7 @@ public class MongoConnectorTest {
         personDao.drop();
 
         Person p1 = new Person(
-                "1",
+                "aaaaaaaaaaaaaaaaaaaaaaaa",
                 "Daniel",
                 "Almeida",
                 true,
@@ -92,7 +89,7 @@ public class MongoConnectorTest {
                 new Address("The fool street", 0));
 
         Person p2 = new Person(
-                "2",
+                "bbbbbbbbbbbbbbbbbbbbbbbb",
                 "Miriã",
                 "Assis",
                 true,
@@ -100,7 +97,7 @@ public class MongoConnectorTest {
                 new Address("The fool street", 0));
 
         Person p3 = new Person(
-                "3",
+                "cccccccccccccccccccccccc",
                 "Lucas",
                 "Silva",
                 true,
@@ -117,5 +114,4 @@ public class MongoConnectorTest {
 
         assertEquals(expected, persons);
     }
-
 }
