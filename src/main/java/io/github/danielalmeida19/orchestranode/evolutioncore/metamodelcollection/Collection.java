@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import io.github.danielalmeida19.orchestranode.annotations.PriorityLevel;
-import io.github.danielalmeida19.orchestranode.utils.CollectionUtils;
 
 public class Collection {
 

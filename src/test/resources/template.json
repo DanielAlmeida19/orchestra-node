@@ -1,0 +1,46 @@
+{
+    "dateTimeChange": "dateExample",
+    "migrated": false,
+    "before": {
+        "name": "Persons",
+        "priorityLevel": "NORMAL",
+        "fields": [
+            {
+                "name": "name",
+                "type": "String",
+                "nullable": false
+            }
+        ]
+    },
+    "after":{
+        "name": "Persons",
+        "priorityLevel": "NORMAL",
+        "fields": [
+            {
+                "name": "name",
+                "type": "String",
+                "nullable": false
+            },
+            {
+                "name": "surname",
+                "type": "String",
+                "nullable": true
+            }
+        ]
+    },
+    "deltaChanges": {
+        "renamed": false,
+        "removed": false,
+        "addedFields": [
+            {
+                "newField":{
+                    "name": "surname",
+                    "type": "String",
+                    "nullable": true
+                },
+                "migrationBehavior": "SET_NULL"
+            }
+        ],
+        "removedFields": []
+    }
+}
