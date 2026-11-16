@@ -23,9 +23,7 @@ public class MongoConnectorTest {
 
     @Before
     public void setUp() {
-        OrchestraNode.init(
-                "io.github.danielalmeida19.orchestranode.model",
-                OrchestraNodeDriver.MONGO);
+        OrchestraNode.simpleInit("io.github.danielalmeida19.orchestranode.model");
 
         connection = new Connection(
                 OrchestraNodeDriver.MONGO,

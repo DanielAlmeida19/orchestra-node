@@ -1,6 +1,4 @@
-package io.github.danielalmeida19.orchestranode.evolutioncore.changemodel;
-
-import java.util.Date;
+package io.github.danielalmeida19.orchestranode.evolutioncore.schemamodificationmodel;
 
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
 
@@ -10,11 +8,6 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection
  * @author Daniel
  */
 public class SchemaModification {
-
-    /**
-     * Attribute that represents the date and time of the modification
-     */
-    private Date dateTimeChange;
 
     /**
      * Attribute that represents if the schema modification are migrated
@@ -40,21 +33,12 @@ public class SchemaModification {
     public SchemaModification() {
     }
 
-    public SchemaModification(Date dateTimeChange, boolean migrated, Collection before, Collection after,
+    public SchemaModification(boolean migrated, Collection before, Collection after,
             DeltaSchemaModification deltaSchemaModification) {
-        this.dateTimeChange = dateTimeChange;
         this.migrated = migrated;
         this.before = before;
         this.after = after;
         this.deltaSchemaModification = deltaSchemaModification;
-    }
-
-    public Date getDateTimeChange() {
-        return dateTimeChange;
-    }
-
-    public void setDateTimeChange(Date dateTimeChange) {
-        this.dateTimeChange = dateTimeChange;
     }
 
     public boolean isMigrated() {

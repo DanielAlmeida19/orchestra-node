@@ -1,4 +1,4 @@
-package io.github.danielalmeida19.orchestranode.evolutioncore.changemodel;
+package io.github.danielalmeida19.orchestranode.evolutioncore.schemamodificationmodel;
 
 /**
  * Sinalizes how the Added Field will be filled in the next version of the

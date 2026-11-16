@@ -10,9 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraCollection;
-import io.github.danielalmeida19.orchestranode.database.OrchestraNodeDriver;
+import io.github.danielalmeida19.orchestranode.database.Connection;
 import io.github.danielalmeida19.orchestranode.evolutioncore.SchemaProcessor;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
+import io.github.danielalmeida19.orchestranode.evolutioncore.schemamodificationmodel.SchemaVersion;
 
 /**
  * This is a util class to initiate and use the middleware in different modes
@@ -21,21 +22,75 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection
  */
 public class OrchestraNode {
 
+    /**
+     * Attribute tha represents the managed package of the model classes that will
+     * be extracted and tranformed in Collections
+     */
     private static String orchestraNodeManagedPackage;
-    private static OrchestraNodeDriver databaseManagement;
-    private static List<Collection> collections;
-
-    private static final Logger log = LoggerFactory.getLogger(OrchestraNode.class);
 
     /**
-     * Method to init the OrchestraNode approach monitoring.
+     * Attrubute that represents the list of collections actually managed by
+     * OrchestraNode
      */
-    public static void init(String managedPackage, OrchestraNodeDriver dbms) {
+    private static List<Collection> collections;
 
-        log.info("Initiating the middleware...");
+    /**
+     * Attribute that represents the list of connections that can be used to create
+     * new databases for new schema versions
+     */
+    private static List<Connection> candidateConnections;
+
+    /**
+     * Attribute that represents the schema history of the OrchestraNode instance
+     */
+    private static List<SchemaVersion> schemaHistory;
+
+    /**
+     * Logger for OrchestraNode class
+     */
+    private static final Logger log = LoggerFactory.getLogger(OrchestraNode.class);
+
+    // Getters and Setters
+    public static String getOrchestraNodeManagedPackage() {
+        return orchestraNodeManagedPackage;
+    }
+
+    public static void setOrchestraNodeManagedPackage(String orchestraNodeManagedPackage) {
+        OrchestraNode.orchestraNodeManagedPackage = orchestraNodeManagedPackage;
+    }
+
+    public static List<Collection> getCollections() {
+        return collections;
+    }
+
+    public static void setCollections(List<Collection> collections) {
+        OrchestraNode.collections = collections;
+    }
+
+    public static List<Connection> getCandidateConnections() {
+        return candidateConnections;
+    }
+
+    public static void setCandidateConnections(List<Connection> candidateConnections) {
+        OrchestraNode.candidateConnections = candidateConnections;
+    }
+
+    public static List<SchemaVersion> getSchemaHistory() {
+        return schemaHistory;
+    }
+
+    public static void setSchemaHistory(List<SchemaVersion> schemaHistory) {
+        OrchestraNode.schemaHistory = schemaHistory;
+    }
+
+    /**
+     * Method to init the OrchestraNode with just extract and manage models
+     */
+    public static void simpleInit(String managedPackage) {
+
+        log.info("Initiating the middleware in simple mode...");
 
         orchestraNodeManagedPackage = managedPackage;
-        databaseManagement = dbms;
 
         collections = extractCollections(managedPackage);
 
@@ -121,27 +176,10 @@ public class OrchestraNode {
 
     }
 
-    public static String getOrchestraNodeManagedPackage() {
-        return orchestraNodeManagedPackage;
+    public static void initialize(
+            List<Connection> connectionsCandidates,
+            String pathToLog) {
+
     }
 
-    public static void setOrchestraNodeManagedPackage(String orchestraNodeManagedPackage) {
-        OrchestraNode.orchestraNodeManagedPackage = orchestraNodeManagedPackage;
-    }
-
-    public static OrchestraNodeDriver getDatabaseManagement() {
-        return databaseManagement;
-    }
-
-    public static void setDatabaseManagement(OrchestraNodeDriver databaseManagement) {
-        OrchestraNode.databaseManagement = databaseManagement;
-    }
-
-    public static List<Collection> getCollections() {
-        return collections;
-    }
-
-    public static void setCollections(List<Collection> collections) {
-        OrchestraNode.collections = collections;
-    }
 }

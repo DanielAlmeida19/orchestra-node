@@ -1,4 +1,4 @@
-package io.github.danielalmeida19.orchestranode.evolutioncore.changemodel;
+package io.github.danielalmeida19.orchestranode.evolutioncore.schemamodificationmodel;
 
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.CollectionField;
 
