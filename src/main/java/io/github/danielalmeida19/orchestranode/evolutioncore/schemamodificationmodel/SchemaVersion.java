@@ -54,18 +54,25 @@ public class SchemaVersion {
      */
     private boolean syncronized;
 
+    /**
+     * Attribute that represents if the this schema version are active in some
+     * database
+     */
+    private boolean active;
+
     public SchemaVersion() {
     }
 
     public SchemaVersion(Date dateTimeVersion, int versionNumber, List<Collection> collections,
             List<SchemaModification> schemaModifications,
-            Connection connection, boolean syncronized) {
+            Connection connection, boolean syncronized, boolean active) {
         this.dateTimeVersion = dateTimeVersion;
         this.versionNumber = versionNumber;
         this.collections = collections;
         this.schemaModifications = schemaModifications;
         this.connection = connection;
         this.syncronized = syncronized;
+        this.active = active;
     }
 
     public List<Collection> getCollections() {
@@ -114,6 +121,14 @@ public class SchemaVersion {
 
     public void setVersionNumber(int versionNumber) {
         this.versionNumber = versionNumber;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

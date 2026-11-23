@@ -1,0 +1,62 @@
+@startuml
+package "schemamodification" {
+    class SchemaVersion {
+        - dateTimeVersion : Date
+        - versionNumber : int
+        - collections : List[Collection]
+        - schemaModifications : List[SchemaModification]
+        - connection : Connection
+        - syncronized : boolean
+        - active : boolean
+    }
+
+    class SchemaModification {
+        - migrated : boolean
+        - before : Collection
+        - after : Collection
+        - deltaSchemaModification : DeltaSchemaModification
+    }
+
+    class DeltaSchemaModification {
+        - renamed : boolean
+        - removed : boolean
+        - addedFields : List[AddedField]
+        - removedFields : List[RemovedField]
+    }
+
+    class RemovedField {
+        - removedField : CollectionField
+        - removedFieldMigrationBehavior : RemovedFieldMigrationBehavior
+    }
+
+    enum RemovedFieldMigrationBehavior {
+        REMOVE
+        SET_NULL
+        SET_ZERO
+        SET_EMPTY_LIST
+        SET_EMPTY_OBJECT
+    }
+
+    class AddedField {
+        - addedField : CollectionField
+        - addedFieldMigrationBehavior : AddedFieldMigrationBehavior
+        - sourceField : Optional[CollectionField]
+    }
+
+    enum AddedFieldMigrationBehavior {
+        IGNORE
+        SET_NULL
+        SET_ZERO
+        SET_EMPTY_LIST
+        SET_EMPTY_OBJECT
+        FROM_ANOTHER_FIELD
+    }
+
+    SchemaVersion "1" --down* "1..*" SchemaModification
+    SchemaModification "1" --down* "1" DeltaSchemaModification
+    DeltaSchemaModification "1" --down* "0..*" AddedField
+    DeltaSchemaModification "1" --down* "0..*" RemovedField
+    AddedField -- AddedFieldMigrationBehavior
+    RemovedField -- RemovedFieldMigrationBehavior
+}
+@enduml

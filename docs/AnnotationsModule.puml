@@ -1,0 +1,33 @@
+@startuml
+package "annotations" {
+    interface CollectionId {
+        +fillingPolicy : FillingPolicy
+    }
+
+    enum FillingPolicy {
+        DB_AUTO_GENERATED
+        MANUALLY
+    }
+
+    interface OrchestraCollection {
+        +name : String
+        +priorityLevel : PriorityLevel
+    }
+
+    enum PriorityLevel {
+        LOW
+        NORMAL
+        HIGH
+    }
+
+    interface OrchestraField {
+        +name : String
+        +external : String
+        +nullable : boolean
+        +ignorable : boolean
+    }
+
+    FillingPolicy *-- CollectionId
+    PriorityLevel *-- OrchestraCollection
+}
+@enduml

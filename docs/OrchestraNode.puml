@@ -1,0 +1,19 @@
+@startuml
+skinparam packageStyle rectangle
+
+package "Orchestra Node" {
+    package "Evolution Core" as core {}
+    package "Extraction Module" as extraction {}
+    package "Annotations Module" as annotations {}
+    package "Communication Module" as communication {}
+    package "Migration Module" as migration {}
+    package "Database Module" as dbs {}
+
+    core ..up* annotations
+    core ..up* extraction
+    core ..left* communication
+    core ..down* migration
+    core ..right* dbs
+
+}
+@enduml

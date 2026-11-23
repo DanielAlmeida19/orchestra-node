@@ -1,0 +1,37 @@
+@startuml
+title
+    Adding Field in Collection with Eager Migration
+endtitle
+
+actor Programmer as programmer
+control "Orchestra Node Evolution Core" as core
+entity "Domain Classes" as domain
+participant "Annotations Module" as annotations
+participant "Schema Processor" as schemaproc
+participant "Schema Modification Processor" as schemamod
+participant "Migration Module" as migration
+database "Previous Version" as db1
+database "Next Version" as db2
+
+programmer -> core : Start the monitoring the model domain classes
+core -> core : Monitoring
+programmer -> domain : Adding a Field with the CollectionField annotation
+domain -> annotations : Instantiate the annotation when build
+core <- annotations : Recognizing the annotations to build a Collection
+core -> schemaproc : Ask the extract the actual version of the Collection \n based on the annotations
+core <- schemaproc : The List of the actual collections
+core -> schemamod : Ask the differences in the new schema
+core <- schemamod : New Schema Version with the modifications
+core -> migration : Ask to migrate the instances to the new schema
+migration -> db2 : Instantiate the new version of the database
+
+loop
+    migration <- db1 : Get a set of antient instances
+    migration -> migration : Modifying instances to the new schema
+    migration -> db2 : Save the new instances in the new database
+end
+
+core <- migration : End migration signal
+core -> db1 : Remove database and deactivate the connection
+
+@enduml

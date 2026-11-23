@@ -1,0 +1,73 @@
+@startuml
+package "evolutioncore" {
+    abstract class CollectionField {
+        - name : String
+        - external : String
+        - nullable : boolean
+        - ignorable : boolean
+    }
+
+    class NumberField {
+        - value : Number
+        + NumberField()
+    }
+
+    class StringField {
+        - value : String
+        + StringField() 
+    }
+
+    class BooleanField {
+        - value : boolean
+        + BooleanField() 
+    }
+
+    class IdField {
+        - value : String | Number
+        - fillingPolicy : FillingPolicy
+        + IdField(name : String, fillingPolicy : FillingPolicy)
+    }
+
+    class ListField {
+        - value : List[T]
+        - elementType : Class
+        + ListField() 
+    }
+
+    class ObjectField {
+        - value : List[CollectionField]
+        - internalClass : Class
+        + ObjectField()
+    }
+    
+    class Collection {
+        - name : String
+        - fields : List[CollectionField]
+        - priorityLevel : PriorityLevel
+    }
+
+    CollectionField <|-- NumberField
+    CollectionField <|-- StringField
+    CollectionField <|-- BooleanField
+    CollectionField <|-- ListField
+    CollectionField <|-- ObjectField
+    CollectionField <|-- IdField
+    CollectionField *-up- Collection
+}
+
+package "annotations" {
+    enum FillingPolicy {
+        DB_AUTO_GENERATED
+        MANUALLY
+    }
+    enum PriorityLevel {
+        LOW
+        NORMAL
+        HIGH
+    }
+}
+
+Collection --right* PriorityLevel
+IdField --down* FillingPolicy
+
+@enduml
