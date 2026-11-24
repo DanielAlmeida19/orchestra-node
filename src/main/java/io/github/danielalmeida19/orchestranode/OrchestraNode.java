@@ -9,8 +9,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.danielalmeida19.orchestranode.annotations.OrchestraCollection;
-import io.github.danielalmeida19.orchestranode.database.Connection;
 import io.github.danielalmeida19.orchestranode.evolutioncore.SchemaProcessor;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
 import io.github.danielalmeida19.orchestranode.evolutioncore.schemamodificationmodel.SchemaVersion;
@@ -20,25 +18,19 @@ import io.github.danielalmeida19.orchestranode.evolutioncore.schemamodificationm
  *
  * @author Daniel
  */
-public class OrchestraNode {
+public class OrchestraNode implements Runnable {
 
     /**
-     * Attribute tha represents the managed package of the model classes that will
-     * be extracted and tranformed in Collections
+     * Attribute that represents the previous configuration of the Orchestra Node
+     * approach
      */
-    private static String orchestraNodeManagedPackage;
+    private static OrchestraNodeConfiguration configuration;
 
     /**
      * Attrubute that represents the list of collections actually managed by
      * OrchestraNode
      */
     private static List<Collection> collections;
-
-    /**
-     * Attribute that represents the list of connections that can be used to create
-     * new databases for new schema versions
-     */
-    private static List<Connection> candidateConnections;
 
     /**
      * Attribute that represents the schema history of the OrchestraNode instance
@@ -50,13 +42,16 @@ public class OrchestraNode {
      */
     private static final Logger log = LoggerFactory.getLogger(OrchestraNode.class);
 
+    // ---------------------------------------------------------
     // Getters and Setters
-    public static String getOrchestraNodeManagedPackage() {
-        return orchestraNodeManagedPackage;
+    // ---------------------------------------------------------
+
+    public static OrchestraNodeConfiguration getConfiguration() {
+        return configuration;
     }
 
-    public static void setOrchestraNodeManagedPackage(String orchestraNodeManagedPackage) {
-        OrchestraNode.orchestraNodeManagedPackage = orchestraNodeManagedPackage;
+    public static void setConfiguration(OrchestraNodeConfiguration configuration) {
+        OrchestraNode.configuration = configuration;
     }
 
     public static List<Collection> getCollections() {
@@ -67,20 +62,18 @@ public class OrchestraNode {
         OrchestraNode.collections = collections;
     }
 
-    public static List<Connection> getCandidateConnections() {
-        return candidateConnections;
-    }
-
-    public static void setCandidateConnections(List<Connection> candidateConnections) {
-        OrchestraNode.candidateConnections = candidateConnections;
-    }
-
     public static List<SchemaVersion> getSchemaHistory() {
         return schemaHistory;
     }
 
     public static void setSchemaHistory(List<SchemaVersion> schemaHistory) {
         OrchestraNode.schemaHistory = schemaHistory;
+    }
+
+    @Override
+    public void run() {
+        // TODO: Auto-generated method stub
+
     }
 
     /**
@@ -90,9 +83,7 @@ public class OrchestraNode {
 
         log.info("Initiating the middleware in simple mode...");
 
-        orchestraNodeManagedPackage = managedPackage;
-
-        collections = extractCollections(managedPackage);
+        collections = SchemaProcessor.extractCollections(managedPackage);
 
         // Remove the null elements of the list
         collections.removeIf(element -> element == null);
@@ -101,37 +92,6 @@ public class OrchestraNode {
         if (collections.isEmpty()) {
             log.warn("No collections managed now by OrchestraNode");
         }
-
-    }
-
-    /**
-     * Generic method to get the list of collections from a list of compiled classes
-     */
-    public static List<Collection> extractCollections(String managedPackage) {
-
-        List<Class<?>> classes = getClassesFromPackage(managedPackage);
-
-        // Verify if the list of classes is empty
-        if (classes.isEmpty()) {
-            log.warn("No classes to be managed, check if the package are correct");
-            return null;
-        }
-        List<Collection> extractedCollections = new ArrayList<>();
-
-        // Process the classes from the managed package
-        for (Class<?> clazz : classes) {
-            // If the class doesn't have the annotation Collection, ignore
-            if (!clazz.isAnnotationPresent(OrchestraCollection.class)) {
-                continue;
-            }
-
-            Collection newCollection = SchemaProcessor.processClass(clazz);
-
-            log.info("Adding collection " + newCollection.getName());
-            extractedCollections.add(newCollection);
-        }
-
-        return extractedCollections;
 
     }
 
@@ -173,12 +133,6 @@ public class OrchestraNode {
                     e);
             return Collections.emptyList();
         }
-
-    }
-
-    public static void initialize(
-            List<Connection> connectionsCandidates,
-            String pathToLog) {
 
     }
 

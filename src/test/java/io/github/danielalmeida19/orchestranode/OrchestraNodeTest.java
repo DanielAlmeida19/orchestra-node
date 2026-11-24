@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import io.github.danielalmeida19.orchestranode.annotations.FillingPolicy;
 import io.github.danielalmeida19.orchestranode.annotations.PriorityLevel;
+import io.github.danielalmeida19.orchestranode.evolutioncore.SchemaProcessor;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.BooleanField;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.IdField;
@@ -27,7 +28,7 @@ public class OrchestraNodeTest {
     @Test
     public void isComplexCollectionExtracting() {
 
-        List<Collection> collections = OrchestraNode
+        List<Collection> collections = SchemaProcessor
                 .extractCollections("io.github.danielalmeida19.orchestranode.model");
 
         Collection expectedPerson = new Collection();

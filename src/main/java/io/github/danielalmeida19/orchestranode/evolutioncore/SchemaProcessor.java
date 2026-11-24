@@ -26,6 +26,37 @@ public class SchemaProcessor {
 
     private static final Logger log = LoggerFactory.getLogger(SchemaProcessor.class);
 
+    /**
+     * Generic method to get the list of collections from a list of compiled classes
+     */
+    public static List<Collection> extractCollections(String managedPackage) {
+
+        List<Class<?>> classes = getClassesFromPackage(managedPackage);
+
+        // Verify if the list of classes is empty
+        if (classes.isEmpty()) {
+            log.warn("No classes to be managed, check if the package are correct");
+            return null;
+        }
+        List<Collection> extractedCollections = new ArrayList<>();
+
+        // Process the classes from the managed package
+        for (Class<?> clazz : classes) {
+            // If the class doesn't have the annotation Collection, ignore
+            if (!clazz.isAnnotationPresent(OrchestraCollection.class)) {
+                continue;
+            }
+
+            Collection newCollection = SchemaProcessor.processClass(clazz);
+
+            log.info("Adding collection " + newCollection.getName());
+            extractedCollections.add(newCollection);
+        }
+
+        return extractedCollections;
+
+    }
+
     public static Collection processClass(Class<?> clazz) {
 
         Collection collection = new Collection();
