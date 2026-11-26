@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.danielalmeida19.orchestranode.OrchestraNode;
 import io.github.danielalmeida19.orchestranode.annotations.CollectionId;
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraCollection;
 import io.github.danielalmeida19.orchestranode.annotations.OrchestraField;
@@ -31,7 +32,7 @@ public class SchemaProcessor {
      */
     public static List<Collection> extractCollections(String managedPackage) {
 
-        List<Class<?>> classes = getClassesFromPackage(managedPackage);
+        List<Class<?>> classes = OrchestraNode.getClassesFromPackage(managedPackage);
 
         // Verify if the list of classes is empty
         if (classes.isEmpty()) {

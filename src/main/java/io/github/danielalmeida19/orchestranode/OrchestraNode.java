@@ -1,7 +1,9 @@
 package io.github.danielalmeida19.orchestranode;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,13 +14,15 @@ import org.slf4j.LoggerFactory;
 import io.github.danielalmeida19.orchestranode.evolutioncore.SchemaProcessor;
 import io.github.danielalmeida19.orchestranode.evolutioncore.metamodelcollection.Collection;
 import io.github.danielalmeida19.orchestranode.evolutioncore.schemamodificationmodel.SchemaVersion;
+import io.github.danielalmeida19.orchestranode.server.DomainPackageManager;
+import io.github.danielalmeida19.orchestranode.server.OrchestraServer;
 
 /**
  * This is a util class to initiate and use the middleware in different modes
  *
  * @author Daniel
  */
-public class OrchestraNode implements Runnable {
+public class OrchestraNode {
 
     /**
      * Attribute that represents the previous configuration of the Orchestra Node
@@ -36,6 +40,8 @@ public class OrchestraNode implements Runnable {
      * Attribute that represents the schema history of the OrchestraNode instance
      */
     private static List<SchemaVersion> schemaHistory;
+
+    private static final Path SOURCE_ROOT = Path.of("").toAbsolutePath();
 
     /**
      * Logger for OrchestraNode class
@@ -70,10 +76,28 @@ public class OrchestraNode implements Runnable {
         OrchestraNode.schemaHistory = schemaHistory;
     }
 
-    @Override
-    public void run() {
-        // TODO: Auto-generated method stub
+    public static void addCollection(Collection collection) {
+        OrchestraNode.getCollections().add(collection);
+    }
 
+    public static void start() {
+        log.info("Initiating the middleware...");
+
+        // TODO: Read the log file to recover the Schema History
+
+        // TODO: Check databases instatiated connections
+
+        try {
+            OrchestraServer server = new OrchestraServer(
+                    SOURCE_ROOT,
+                    configuration.getManagedPackage(),
+                    new DomainPackageManager(SOURCE_ROOT, configuration.getManagedPackage()));
+
+            server.run();
+
+        } catch (IOException e) {
+            log.error("Error to initiating the Server: " + e.getStackTrace().toString());
+        }
     }
 
     /**
@@ -99,7 +123,7 @@ public class OrchestraNode implements Runnable {
      * Generic method to get a list of compiled classes inside the managed package
      * passed in param
      */
-    private static List<Class<?>> getClassesFromPackage(String managedPackage) {
+    public static List<Class<?>> getClassesFromPackage(String managedPackage) {
 
         try {
             List<Class<?>> classes = new ArrayList<>();
